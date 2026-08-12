@@ -52,6 +52,9 @@ rank-bm25>=0.2.0
 # Hugging Face for downloading ChromaDB
 huggingface-hub>=0.20.0
 
+# Telegram Bot
+python-telegram-bot>=20.0
+
 # ==============================================================================
 # DEPLOYMENT NOTES:
 # ==============================================================================
