@@ -1,10 +1,10 @@
-# 📱 Telegram Bot - Quick Start (5 Minutes)
+# 📱 Telegram Bot - Quick Start (100% FREE - 5 Minutes)
 
-Make your ESS chatbot available on Telegram 24/7!
+Make your ESS chatbot available on Telegram 24/7 with **NO COST**!
 
 ---
 
-## 🚀 Super Quick Setup (Railway - Recommended)
+## 🚀 100% FREE Setup (Glitch.com)
 
 ### Step 1: Create Telegram Bot (2 minutes)
 
@@ -14,49 +14,70 @@ Make your ESS chatbot available on Telegram 24/7!
 4. Username: `ess_stats_bot` (or any name ending with `bot`)
 5. **Copy the token** (looks like: `123456789:ABCdef...`)
 
-### Step 2: Deploy on Railway (3 minutes)
+### Step 2: Deploy on Glitch (3 minutes)
 
-1. Go to: **https://railway.app**
-2. Sign in with **GitHub**
-3. Click **"Deploy from GitHub repo"**
-4. Select: `Jonas2127/ess-sdg-chatbot`
-5. Go to **"Variables"** → Add:
+1. Go to: **https://glitch.com**
+2. Sign up with **GitHub** (FREE - no credit card needed!)
+3. Click **"New Project"** → **"Import from GitHub"**
+4. Enter: `https://github.com/Jonas2127/ess-sdg-chatbot`
+5. Click **".env"** file → Add:
    ```
-   TELEGRAM_BOT_TOKEN = your_token_from_step_1
-   GROQ_API_KEY = your_groq_api_key_here
-   LLM_PROVIDER = groq
+   TELEGRAM_BOT_TOKEN=your_token_from_step_1
+   GROQ_API_KEY=your_groq_api_key
+   LLM_PROVIDER=groq
    ```
-6. Go to **"Settings"** → Set start command:
+6. Create `glitch.json` file with:
+   ```json
+   {
+     "install": "pip install -r requirements.txt",
+     "start": "python telegram_bot.py"
+   }
    ```
-   python telegram_bot.py
-   ```
-7. Click **"Deploy"**
 
-### Step 3: Test Your Bot
+### Step 3: Keep Bot Awake (FREE)
+
+1. Go to: **https://uptimerobot.com**
+2. Sign up (FREE)
+3. Add monitor:
+   - URL: `https://YOUR-PROJECT-NAME.glitch.me`
+   - Interval: 5 minutes
+4. This pings your bot every 5 minutes → Stays awake 24/7!
+
+### Step 4: Test Your Bot
 
 1. Open Telegram
 2. Search for your bot (e.g., `@ess_stats_bot`)
 3. Click **"Start"**
 4. Send: `What is Ethiopia's population?`
 
-**Done! Your bot is live 24/7!** 🎉
+**Done! Your bot is live 24/7 for FREE!** 🎉
+
+---
+
+## 💰 Cost: $0/month
+
+- ✅ Glitch hosting: FREE
+- ✅ UptimeRobot: FREE
+- ✅ Telegram: FREE
+- ✅ Groq API: FREE
+- ✅ NO credit card required!
 
 ---
 
 ## 📚 Full Documentation
 
-See `docs/TELEGRAM_BOT_DEPLOYMENT.md` for:
-- Alternative hosting platforms (Render, PythonAnywhere)
-- Detailed configuration
-- Troubleshooting
-- Monitoring
+See `docs/TELEGRAM_FREE_DEPLOYMENT.md` for:
+- Alternative free platforms (Replit)
+- Running on your own computer
+- Detailed troubleshooting
+- More configuration options
 
 ---
 
 ## 🎯 What You Get
 
-✅ **24/7 availability** - Bot never sleeps
-✅ **Free hosting** - Railway gives 500 hours/month
+✅ **24/7 availability** - Bot never sleeps (with UptimeRobot)
+✅ **100% FREE** - No credit card, no hidden costs
 ✅ **Fast responses** - 1-3 seconds via Groq
 ✅ **Full RAG access** - 221 PDFs + 12,037 indicators
 ✅ **No maintenance** - Auto-restarts on errors
@@ -75,9 +96,10 @@ See `docs/TELEGRAM_BOT_DEPLOYMENT.md` for:
 ## 🔗 Quick Links
 
 - **Get Bot Token:** https://t.me/BotFather
-- **Deploy on Railway:** https://railway.app
-- **Full Guide:** `docs/TELEGRAM_BOT_DEPLOYMENT.md`
+- **Deploy on Glitch:** https://glitch.com
+- **Keep Awake:** https://uptimerobot.com
+- **Full Free Guide:** `docs/TELEGRAM_FREE_DEPLOYMENT.md`
 
 ---
 
-**Questions?** Read the full deployment guide or check the logs!
+**Questions?** Read the full free deployment guide!
