@@ -12,6 +12,7 @@ python-dotenv>=1.0.0
 langchain>=0.1.20
 langchain-core>=0.1.52
 langchain-community>=0.0.38
+langchain-experimental>=0.0.60
 langchain-groq>=0.1.5
 langchain-text-splitters>=0.0.2
 
