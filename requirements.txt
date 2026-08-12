@@ -1,0 +1,65 @@
+# ==============================================================================
+# DUAL-ENGINE RAG CHATBOT - ETHIOPIAN STATISTICAL SERVICE (ESS)
+# ==============================================================================
+# Engine A: PDF RAG (221 ESS PDFs + 1 AfDB PDF)
+# Engine B: Excel SQL (17 UN SDG Excel files)
+# LLM: Llama-3.1-8B via Groq API (FREE - 1-2s responses)
+# ==============================================================================
+# Optimized for Streamlit Cloud Deployment
+# ==============================================================================
+
+# Core Framework
+streamlit==1.41.1
+python-dotenv==1.0.1
+
+# LangChain Ecosystem (Python 3.14 compatible - WORKING VERSIONS)
+langchain==1.3.14
+langchain-core==1.5.3
+langchain-community==0.4.2
+langchain-groq==1.1.3           # For fast Groq LLM (1-2s responses)
+langchain-experimental==0.4.2   # For SQL chains
+langchain-text-splitters==1.1.2
+
+# Vector Database (Engine A)
+chromadb==0.6.3
+sentence-transformers==5.6.0
+
+# PDF Processing (Engine A)
+pdfplumber==0.11.10
+PyPDF2==3.0.1
+
+# Excel & SQL Processing (Engine B)
+pandas==3.0.0
+openpyxl==3.1.5             # Excel reading
+sqlalchemy==2.0.36
+# sqlite3 is built-in, no need to install
+
+# Embeddings & NLP
+torch==2.13.0
+transformers==5.12.1
+
+# Document Loading & Processing
+unstructured==0.17.10
+markdown==3.7
+
+# Utilities
+requests==2.32.3
+tqdm==4.67.1
+numpy==2.2.3
+
+# Export functionality
+reportlab==4.2.5            # PDF generation
+python-docx==1.1.2          # Word document generation
+
+# Optional: BM25 for hybrid search
+rank-bm25==0.2.2
+
+# ==============================================================================
+# STREAMLIT CLOUD DEPLOYMENT NOTES:
+# ==============================================================================
+# 1. NO Ollama required - using Groq API instead (fast & free)
+# 2. ChromaDB vector store MUST be in Git repository
+# 3. SQLite database MUST be in Git repository  
+# 4. Set GROQ_API_KEY in Streamlit Cloud secrets
+# 5. Memory limit: 1GB (should be sufficient with current setup)
+# ==============================================================================

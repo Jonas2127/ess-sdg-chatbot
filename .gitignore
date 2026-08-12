@@ -1,0 +1,52 @@
+# Environment and secrets
+.env
+.env.local
+.env.cloud
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Large data files
+data/embeddings/
+data/processed/*.csv
+data/processed/*.json
+
+# PDF source files - NOT needed for deployment (only ChromaDB vector store is used at runtime)
+data/raw/ess_reports/pdfs/
+data/raw/afdb_reports/
+
+# ChromaDB - TOO LARGE for GitHub (805 MB), will be hosted on Hugging Face and downloaded at runtime
+data/vectorstore/chromadb/
+chromadb.zip
+
+# User-generated conversation history (each deployment has its own)
+data/conversation_history.json
+
+# IDE
+.vscode/
+.idea/
+.kiro/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exports (user-generated)
+exports/*.pdf
+exports/*.docx
+exports/*.png
+
+# Keep folder structure
+!exports/.gitkeep
+!data/raw/un_sdg_manual/.gitkeep
+!data/processed/.gitkeep
+
+# Archive
+archive/

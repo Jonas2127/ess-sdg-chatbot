@@ -1,0 +1,251 @@
+[
+  {
+    "messages": [
+      {
+        "role": "user",
+        "content": "what is the crop production in amhara region"
+      },
+      {
+        "role": "assistant",
+        "content": "**From ESS PDF Documents:**\nBased on the given context, the crop production in Amhara Region can be found in the following tables:\n\n**Table 2: Estimate of Cropland Area and Production of Commercial Farms, 2010E.C. (2017/18)**\n\nUnder Amhara Region, the total crop production is broken down into various categories. Here are some specific details:\n\n- Grains: 177,242.16 hectares, producing 2,721,066.53 quintals\n- Cereals: 55,390.31 hectares, producing 1,735,869.18 quintals\n- Teff: 2,563.30 hectares, producing 39,532.77 quintals\n- Barley: 591.11 hectares, producing 20,742.68 quintals\n- Wheat: 3,245.96 hectares, producing 64,466.32 quintals\n- Maize: 15,754.48 hectares, producing 807,842.53 quintals\n- Sorghum: 33,082.24 hectares, producing 800,652.32 quintals\n- Finger millet: 153.21 hectares, producing 2,632.56 quintals\n- Pulse: 19,270.67 hectares, producing 257,420.55 quintals\n- Chick peas: 4,838.29 hectares, producing 85,698.66 quintals\n- Soya beans: 7,372.26 hectares, producing 157,321.82 quintals\n- Oile seeds: 102,581.18 hectares, producing 727,776.80 quintals\n- Vegetables: 1,081.88 hectares (no production details provided)\n\n**Table 5.6.2: Estimate of Holders, Area, Production, and Yield of Temporary Crops for Private Peasant Holdings for Meher Season Urban Holdings**\n\nUnder Amhara Region, the crop production for temporary crops is as follows:\n\n- Vegetables: 1,290 holders, 162.02 hectares, producing 1,322.78 quintals\n- Lettuce: 35 holders, 1.27 hectares, producing 20.90 quintals\n- Head cabbage: 7,681 holders, 27.19 hectares, producing 2,582.50 quintals\n\n**Table A: Estimate of Holders, Area, Production, and Yield of Temporary Crops for Private Peasant Holdings for Both Seasons All Holdings**\n\nUnder Amhara Region, the crop production for temporary crops is as follows:\n\n- Root crops: 1,021,022 holders, 79,111.93 hectares, producing 4,999,216.31 quintals\n- Beetroot: 8,323 holders, 90.97 hectares, producing 7,468.52 quintals\n\n**From UN SDG Database:**\nNo data found in the UN SDG database for this specific query.\n\nThe database contains indicators like:\n- Proportion of population below international poverty line (%)\n- Proportion of population living below national poverty line (%)\n- Employment poverty indicators\n\nTry asking: 'What is Ethiopia's poverty rate in 2021?' or 'What is the latest poverty rate for Ethiopia?'",
+        "metadata": {
+          "sources": 5,
+          "time": 1.9610941410064697,
+          "top_score": 0.95,
+          "sources_data": [
+            {
+              "content": "- - - - Tea - - - - - Hopes/'Gesho'/ - - - - - Enset - - - - - Sugar cane 9,406.89 13.52 365,717.32 18.27 38.88 Cotton 56,568.49 81.29 1,500,000.22 74.93 26.52 Other permanent crops 7.97 0.01 2,019.47 0.10 253.38 Table 2 Estimate of Cropland Area and Production of Commercial Farms, 2010E.C. (2017/18) Amhara Area Production Yield Hectares % Quintals % QT/HA Total 193,013.19 100.00 3,124,927.68 100.00 Grains 177,242.16 91.83 2,721,066.53 87.08 Cereals 55,390.31 28.70 1,735,869.18 55.55 Teff 2,563.",
+              "metadata": {
+                "chunk_id": 14,
+                "source": "ESS",
+                "has_tables": "True",
+                "year": 2010,
+                "pages": 77,
+                "filename": "2010-commercial-farm-12018-final-1-1.pdf",
+                "category": "Agriculture",
+                "report_type": "Agricultural Survey"
+              }
+            },
+            {
+              "content": "- - | 2,300,144 112,450 * 69,408 1,516,648 363,920 * 195,004 * 42,714 * * | 90.17 127.53 * 73.37 102.71 197.30 * 28.61 * 107.59 * * | 9 18 6 16 9 7 * 6 * 7 * * --- Table on Page 21 --- Geographic Area | Total Number of Crop Holders | Number of Holders Reporting | Number of Asses Reported | Average Number Per Crop Holder | Total Value (Birr) | Average Replacement Value Per Ass (Birr) | Average Age of Ass (Years) Country Level...................................... Tigray Region....................",
+              "metadata": {
+                "filename": "national-implement.pdf",
+                "pages": 40,
+                "has_tables": "True",
+                "source": "ESS",
+                "report_type": "General Report",
+                "chunk_id": 39,
+                "category": "General"
+              }
+            },
+            {
+              "content": "4,367.97 2,145.50 Other permanent crops 6.04 51.57 - - - - - - --- Page 52 --- Table 3Estimate of farm input applied cropland area and quantity of input used by crop and input types for commercial frams, 2010 E.C(2017/18)Chemical Fertilizer Applied IN HECTARES, Amhara UREA DAP Improved Seed Indigenous Seed Type of crop Area in Ha Amnt in Qts Area in Ha Amnt in Qts Area in Ha Amnt in Qts Area in Ha Amnt in Qts Total 48,318.99 59,704.36 302,610.27 81,432.47 16,822.89 15,875.28 176,190.30 78,613.80",
+              "metadata": {
+                "source": "ESS",
+                "category": "Agriculture",
+                "year": 2010,
+                "has_tables": "True",
+                "pages": 77,
+                "chunk_id": 22,
+                "filename": "2010-commercial-farm-12018-final-1-1.pdf",
+                "report_type": "Agricultural Survey"
+              }
+            },
+            {
+              "content": "Amhara 129 6.97 28.10 4.03 Oromia 226 * 76.47 * Somali - - - - Benishangul-Gumuz - - - - S.N.N.P.R. 10 * - - Gambela - - - - Harari - - - - Addis Abeba - - - - Dire Dawa - - - - TABLE 5.6.2 - ESTIMATE OF HOLDERS, AREA, PRODUCTION AND YIELD OF TEMPORARY CROPS FOR PRIVATE PEASANT HOLDINGS FOR MEHER SEASON URBAN HOLDINGS VEGETABLES Number of Area Production Geographic Area Holders Hectares Quintals Ethiopia 16,176 1,984.68 37,529.37 Tigray 206 38.06 282.49 Afar 37 59.44 1,551.72 Amhara 1,290 162.02",
+              "metadata": {
+                "chunk_id": 25,
+                "filename": "national-area-production.pdf",
+                "has_tables": "True",
+                "source": "ESS",
+                "pages": 166,
+                "category": "General",
+                "report_type": "General Report"
+              }
+            },
+            {
+              "content": "- - - - Amhara 7,681 27.19 2,582.50 94.98 Oromia 5,453 45.44 4,793.90 105.5 Somali * * - - Benishangul-Gumuz 111 * * * S.N.N.P.R. 6,237 46.45 2,360.99 50.83 Gambela * * - - Harari * * * * Addis Abeba 672 * 763.33 * Dire Dawa - - - - --- Page 73 --- TABLE 5.8.3 - ESTIMATE OF HOLDERS, AREA, PRODUCTION AND YIELD OF TEMPORARY CROPS FOR PRIVATE PEASANT HOLDINGS FOR BOTH SEASONS ALL HOLDINGS ROOT CROPS Number of Area Production Geographic Area Holders Hectares Quintals Ethiopia 3,767,948 265,754.27 18",
+              "metadata": {
+                "category": "General",
+                "has_tables": "True",
+                "chunk_id": 34,
+                "pages": 166,
+                "filename": "national-area-production.pdf",
+                "source": "ESS",
+                "report_type": "General Report"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "timestamp": 1
+  },
+  {
+    "messages": [
+      {
+        "role": "user",
+        "content": "what is the crop production of oromia in 2020"
+      },
+      {
+        "role": "assistant",
+        "content": "**From ESS PDF Documents:**\nTo answer the question about the crop production of Oromia in 2020, we need to refer to the given tables and context.\n\nHowever, I noticed that there are multiple tables and contexts provided, but the exact question about the crop production of Oromia in 2020 is not explicitly mentioned in any of them. Nonetheless, I will attempt to provide an answer based on the information available.\n\nAccording to Table 1.4 - CROP PRODUCTION AND PERCENT OF UTILIZATION ALL HOLDINGS Oromia Region, which refers to the 2020/21 (2013 E.C.) data:\n\n- Total Crop Production of Oromia in 2020: \n  - Grain Crops: 143,893,654 quintals\n  - Cereals: 127,719,933 quintals\n  - Teff: 24,737,964 quintals\n  - Barley: 10,939,448 quintals\n  - Wheat: 26,640,245 quintals\n  - Maize: 43,620,969 quintals\n  - Sorghum: 19,166,012 quintals\n  - Finger millet: 2,035,881 quintals\n  - Oats “Aja”: 441,283 quintals\n  - Rice: 138,130 quintals\n  - Pulses: 12,337,136 quintals\n\n**From UN SDG Database:**\nNo data found in the UN SDG database for this specific query.\n\nThe database contains indicators like:\n- Proportion of population below international poverty line (%)\n- Proportion of population living below national poverty line (%)\n- Employment poverty indicators\n\nTry asking: 'What is Ethiopia's poverty rate in 2021?' or 'What is the latest poverty rate for Ethiopia?'",
+        "metadata": {
+          "sources": 5,
+          "time": 1.2756333351135254,
+          "top_score": 0.95,
+          "sources_data": [
+            {
+              "content": "16.17 1,538,097.33 242,801.59 15.79 Rapeseed 2,460.21 500.54 20.35 40,313.27 10,009.40 24.83 120 --- Page 125 --- Estimate of Holders, Area, Production, Standard Errors and Coefficient of Variations For Crops 2020/21 (2013 E.C.) Oromia Standard CV Standard CV Crop Area Production Error (%) Error (%) Total Grains 5,944,489.15 162,906.75 2.74 169,614,568.12 5,396,909.38 3.18 Cereals 4,997,577.83 138,970.83 2.78 152,421,549.22 4,997,926.67 3.28 Teff 1,393,455.62 67,189.40 4.82 26,904,670.12 1,376,3",
+              "metadata": {
+                "has_tables": "True",
+                "filename": "2013-MEHER-REPORT.FINAL_.pdf",
+                "chunk_id": 75,
+                "year": 2013,
+                "source": "ESS",
+                "report_type": "General Report",
+                "category": "General",
+                "pages": 143
+              }
+            },
+            {
+              "content": "Meher Season 2015/16 Oromia Region Number of Area In Production In Yield Crop Holders Hectares Quintals (Qt/Ha) Grain Crops. . . . . .. …. 5,949,460.00 5,675,983.17 133,285,694.33 Cereals.......................... 5,796,737.00 4,679,264.49 117,225,102.26 Teff................................ 2,519,210.00 1,369,934.27 22,156,257.67 16.17 Barley............................ 1,537,658.00 439,971.07 9,800,863.02 22.28 Wheat............................ 1,951,975.00 872,252.80 24,593,751.44 28.20 Maize.",
+              "metadata": {
+                "filename": "Agricultural-Sample-Survey-Area-and-Production-Meher-Season-2016.pdf",
+                "pages": 121,
+                "year": 2016,
+                "chunk_id": 24,
+                "report_type": "Agricultural Survey",
+                "category": "Agriculture",
+                "has_tables": "True",
+                "source": "ESS"
+              }
+            },
+            {
+              "content": "- - 2.63 Amhara 91.89 5 - 90 - - 5 Oromia 17,844.73 60.65 0.12 33.86 0.35 0.01 5.01 Somali - - - - - - - Benishangul-Gumuz 27.80 62.88 - 36.82 - - 0.3 S.N.N.P.R. * 64.63 - 30.15 0.3 - 4.92 Gambela 12.16 60.89 - 21.24 - 2.74 15.13 Harari - - - - - - - Addis Abeba - - - - - - - Dire Dawa 153.71 7.61 - 92.39 - - - TABLE G - CROP PRODUCTION AND PERCENT OF UTILIZATION URBAN HOLDINGS PAPAYAS Percent Utilized For Total Production Household Wages Animal Geographic Area (Quintal) Consumption Seed Sale In",
+              "metadata": {
+                "has_tables": "True",
+                "category": "General",
+                "chunk_id": 76,
+                "source": "ESS",
+                "filename": "national-area-production.pdf",
+                "pages": 166,
+                "report_type": "General Report"
+              }
+            },
+            {
+              "content": "- Chat 90 21.88 5.94 68.75 - - 3.44 Coffee 14 66.36 1.82 30 - - 1.82 Hops (Gesho) 2 22.33 33.33 44.33 - - - Sugar cane 73 100 - - - - - Enset - - - - - - - 37 --- Page 40 --- TABLE 1.4- CROP PRODUCTION AND PERCENT OF UTILIZATION ALL HOLDINGS Oromia Region Percent Utilized For Total Production Household Wages Animal Type of Crop (Quintal) Consumption Seed Sale In kind Feed Others Grain Crops 143,893,654 59.04 13.38 24.36 0.6 0.63 1.99 Cereals 127,719,933 63.76 13.11 19.28 0.67 0.89 2.29 Teff 24,7",
+              "metadata": {
+                "filename": "crop-livestock-product-utilization-2016-17-2009.pdf",
+                "source": "ESS",
+                "pages": 139,
+                "report_type": "General Report",
+                "has_tables": "True",
+                "year": 2016,
+                "category": "General",
+                "chunk_id": 26
+              }
+            },
+            {
+              "content": "59.29 - - - Coffee 8 61.58 - 35.79 - - 2.63 Hops (Gesho) - - - - - - - Sugar cane - - - - - - - Enset - - - - - - - 37 --- Page 40 --- TABLE 1.4- CROP PRODUCTION AND PERCENT OF UTILIZATION ALL HOLDINGS Oromia Region Percent Utilized For Total Production Household Wages Animal Type of Crop (Quintal) Consumption Seed Sale In kind Feed Others Grain Crops 133,718,914 61.77 13.58 21.33 0.69 0.49 2.15 Cereals 118,197,981 65.47 13.26 17.36 0.79 0.63 2.5 Teff 23,254,882 53.26 14.73 28.66 1 0.05 2.29 Bar",
+              "metadata": {
+                "pages": 139,
+                "has_tables": "True",
+                "source": "ESS",
+                "chunk_id": 26,
+                "category": "General",
+                "filename": "Crop-And-Livestock-Product-Utilization-Private-Peasant-Holdings-Meher-Season-2014-15-2007-E.C.-1.pdf",
+                "report_type": "General Report",
+                "year": 2014
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "timestamp": 1
+  },
+  {
+    "messages": [
+      {
+        "role": "user",
+        "content": "what is the cpi of ethiopia in 2026 of june"
+      },
+      {
+        "role": "assistant",
+        "content": "**From ESS PDF Documents:**\nHowever, I need more information about the CPI in 2026. The provided context only discusses the CPI re-basing planned for June 2025=100. \n\nBut to answer your question, according to the given context, the CPI re-basing is planned for June 2025=100 using the weights to be derived from 2017 EFY National Integrated Household Survey. However, I couldn't find any information related to the 2026 CPI.\n\nSo, I can only provide information up to May 2025. According to the provided context, from May 2025, the ESS has decided to do the price data collection and CPI production using the combined 200 markets (120 old + 80 new).\n\n**From UN SDG Database:**\nNo data found in the UN SDG database for this specific query.\n\nThe database contains indicators like:\n- Proportion of population below international poverty line (%)\n- Proportion of population living below national poverty line (%)\n- Employment poverty indicators\n\nTry asking: 'What is Ethiopia's poverty rate in 2021?' or 'What is the latest poverty rate for Ethiopia?'",
+        "metadata": {
+          "sources": 5,
+          "time": 1.3912432193756104,
+          "top_score": 0.95,
+          "sources_data": [
+            {
+              "content": "June 2024. In the subsequent piloting exercises conducted for one year CPI results showed negligible differences between 120 markets and the combined 200 markets. This exercise was a milestone for the next CPI re-basing which is planned for June 2025=100 using the weights to be derived from 2017 EFY National Integrated Household Survey. Furthermore, these 80 new markets are important in order to include the four newly emerged regional sates of Sidama, South, South West and Central Ethiopia for t",
+              "metadata": {
+                "year": 2018,
+                "filename": "1.inflation-report-june-efy-2018-final.pdf",
+                "chunk_id": 8,
+                "pages": 13,
+                "category": "General",
+                "report_type": "General Report",
+                "has_tables": "True",
+                "source": "ESS"
+              }
+            },
+            {
+              "content": "2025=100 using the weights to be derived from 2017 EFY National Integrated Household Survey. Furthermore, these 80 new markets are important in order to include the four newly emerged regional sates of Sidama, South, South West and Central Ethiopia for the future CPI compilation. Accordingly, the ESS has decided to do the price data collection and CPI production using the combined 200 markets(120 old+80 new) starting from May 2025. --- Table on Page 10 --- Issue No. 28/2018 Page 10 4. Annual Inf",
+              "metadata": {
+                "report_type": "General Report",
+                "source": "ESS",
+                "filename": "1.inflation-report-oct-efy-2018-final.pdf",
+                "pages": 13,
+                "category": "General",
+                "has_tables": "True",
+                "chunk_id": 10,
+                "year": 2018
+              }
+            },
+            {
+              "content": "Non-Food ጥጥ 2009=100; December 2016=100 --- Page 17 --- March 2023 Country Level Inflation Rate Summary: These days inflation is not only the problem for our country but has become a challenge for the developed countries as well. In March 2023 the General inflation rate increased as scomapred to similar month last year. However, Increas in prices of most Cereals (specially, Teff), Pasta and Macaroni, Vegetables and Fruits, Potatoes and other Tubers, Pulses, Meat and Milk, cheese and eggs which w",
+              "metadata": {
+                "filename": "CPI_Mar_2023.pdf",
+                "source": "ESS",
+                "pages": 48,
+                "chunk_id": 5,
+                "report_type": "Price Index",
+                "category": "Economic Statistics",
+                "has_tables": "True"
+              }
+            },
+            {
+              "content": "--- Page 1 --- P DF-XChange W Vi ! ew er P DF-XChange W Vi ! ew er wClick to buy NO m wClick to buy NO m ww.docu-track.co ww.docu-track.co በኢትዮጵያ ፌዴራላዊ ዴሞክራሲያዊ ሪፐብሊክ በብሔራዊ ልማትና ፕላን ኮሚሽን Ëc= THE FEDERAL DEMOCRATIC REPUBLIC OF ETHIOPIA NATIONAL DEVELOPMENT AND PLANNING COMMISSION CENTRAL STATISTICAL AGENCY gTŒ‹  የየካቲት  [ታህሳስ=]  COUNTRY AND REGIONAL LEVEL CONSUMER PRICE INDICES (CPI) n p  i1 w p i0 i=1 i−1 n",
+              "metadata": {
+                "source": "ESS",
+                "chunk_id": 0,
+                "has_tables": "True",
+                "report_type": "Price Index",
+                "pages": 46,
+                "filename": "cpi_2020_feb-1.pdf",
+                "category": "Economic Statistics"
+              }
+            },
+            {
+              "content": "the country. This led the Ethiopian Statistics Service to review data collection sample markets that are representative following a consistent ap- proach applied to select the existing 120 markets. This exercise led to the selection of 80 new markets. This makes a total of 200 markets (120 old markets and 80 new markets) for price survey. To see what effect the new market selection could have on the CPI series, Pilot Surveys were conducted in the newly selected 80 markets starting from July 2024",
+              "metadata": {
+                "category": "General",
+                "filename": "1.inflation-report-july-efy-2017-final-1.pdf",
+                "source": "ESS",
+                "chunk_id": 3,
+                "has_tables": "True",
+                "year": 2017,
+                "report_type": "General Report",
+                "pages": 13
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "timestamp": 1
+  }
+]
