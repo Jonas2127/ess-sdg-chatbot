@@ -16,9 +16,9 @@ from datetime import datetime
 
 # Download ChromaDB from Hugging Face if not present (for Streamlit Cloud deployment)
 if not os.path.exists("data/vectorstore/chromadb/chroma.sqlite3"):
-    with st.spinner("📥 Downloading vector database from Hugging Face... (first time only, ~1 minute)"):
-        from download_chromadb import download_chromadb
-        download_chromadb()
+    with st.spinner("📥 Downloading vector database from Hugging Face... (first time only, ~5 minutes)"):
+        from download_chromadb import download_large_files
+        download_large_files()
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
