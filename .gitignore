@@ -29,6 +29,20 @@ chromadb.zip
 # User-generated conversation history (each deployment has its own)
 data/conversation_history.json
 
+# SQL Database files (large, frequently changing)
+data/sql_database/*.db
+
+# New PDF files
+data/raw/new_pdfs/
+
+# Temporary utility scripts
+add_new_pdfs.py
+download_pdf_files.py
+extract_pdfs_from_zip.ps1
+PUSH_TO_GITHUB_COMMANDS.txt
+FILES_TO_REVIEW.md
+cleanup_before_push.ps1
+
 # IDE
 .vscode/
 .idea/

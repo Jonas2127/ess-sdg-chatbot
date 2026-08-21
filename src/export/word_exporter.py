@@ -108,7 +108,7 @@ class WordExporter:
                     a_content = a_para.add_run(msg['content'])
                     a_content.font.name = 'Times New Roman'
                     a_content.font.size = Pt(12)
-                    a_content.font.color.rgb = RGBColor(224, 224, 224)  # Light gray
+                    a_content.font.color.rgb = RGBColor(0, 0, 0)  # Black for better readability
                     
                     # Metadata
                     if 'metadata' in msg:

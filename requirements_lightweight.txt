@@ -1,6 +1,0 @@
-# Lightweight requirements for Telegram bot only
-# Total size: < 10 MB (perfect for PythonAnywhere free tier)
-
-python-telegram-bot>=20.0
-python-dotenv>=1.0.0
-requests>=2.31.0

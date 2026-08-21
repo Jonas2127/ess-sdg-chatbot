@@ -107,7 +107,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",  # Start expanded, but allow hiding
     menu_items={
-        'About': "ET ESS RAG Bot - Dual-Engine Statistical Data Assistant & Policy Analyst"
+        'About': "ET ESS RAG Bot - Dual-Engine Statistical Data Assistant & Policy Analyst for Ethiopian Statistical Service"
     }
 )
 
@@ -485,8 +485,8 @@ st.markdown(f"""
     }}
     
     .sidebar-logo {{
-        width: 60px;
-        height: 60px;
+        width: 120px;
+        height: 120px;
         margin: 0 auto 0.5rem auto;
         display: block;
         background: white;
@@ -598,8 +598,8 @@ st.markdown(f"""
     }}
     
     .header-logo {{
-        width: 50px;
-        height: 50px;
+        width: 120px;
+        height: 120px;
         background: white;
         padding: 5px;
         border-radius: 50%;
@@ -939,6 +939,9 @@ with st.sidebar:
         {logo_img}
         <div class="sidebar-title">ET ESS RAG Bot</div>
         <div class="sidebar-subtitle">Intelligent Statistical Data Assistant & Policy Analyst</div>
+        <div style="margin-top: 0.8rem; font-size: 0.75rem; font-weight: 600; color: #4ade80; letter-spacing: 1.5px; text-align: center;">
+            "YOUR RELIABLE DATA SOURCE"
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -959,18 +962,6 @@ with st.sidebar:
         <div class="status-item">Engine A: PDF RAG (ChromaDB)</div>
         <div class="status-item">Engine B: Excel SQL (Pandas)</div>
         <div class="status-item">LLM: Llama-3.1-8B via Ollama (LangChain)</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Knowledge stats
-    st.markdown(f"""
-    <div class="status-item" style="margin-top: 1rem;">
-        📄 <strong>221</strong> ESS PDF Reports<br>
-        📊 <strong>17</strong> UN SDG Excel Files<br>
-        📑 <strong>1</strong> AfDB Policy Document
-    </div>
-    <div class="status-item">
-        ⏱️ <strong>&lt; 1 sec</strong> Avg Response Time
     </div>
     """, unsafe_allow_html=True)
     
@@ -1182,33 +1173,35 @@ with st.sidebar:
     if st.session_state.about_expanded:
         st.markdown("""
         **ET ESS RAG BOT**  
-        *Ethiopia SDG AI Assistant*
+        *AI-Powered Statistical Data Assistant for Ethiopia*
         
         **Purpose:**  
-        Provide instant access to Ethiopia's SDG data through AI-powered search
+        Provide instant access to Ethiopia's comprehensive statistical data through AI-powered search and analysis
         
         **Dual-Engine Architecture:**  
-        • **Engine A:** PDF RAG - 221 ESS Reports + 1 AfDB Policy (ChromaDB)  
-        • **Engine B:** SQL Query - 17 UN SDG Excel Files (SQLite Database)  
+        • **Engine A:** PDF RAG - ESS Statistical Reports & Policy Documents  
+        • **Engine B:** SQL Query - UN SDG Database (17 Goals, 12,037 indicators)  
         
         **Data Coverage:**  
-        • **36,524** PDF chunks indexed (222 documents)  
-        • **12,037** SDG indicators in database  
-        • All 17 SDG Goals covered  
-        • Multi-source: ESS Reports + AfDB + UN SDG Database
+        • **40,325** document chunks from ESS monthly reports  
+        • **12,037** SDG indicators for Ethiopia  
+        • **Statistics:** CPI/Inflation, Agriculture, Population, Business Surveys, Household Data  
+        • **Multi-source validation:** ESS Reports + UN SDG Database
         
         **Technology Stack:**  
-        • **LLM:** Llama 3.1-8B via Groq API  
-        • **RAG Framework:** LangChain  
-        • **Vector Store:** ChromaDB (for PDFs)  
-        • **SQL Database:** SQLite (for Excel data)  
-        • **Embeddings:** all-MiniLM-L6-v2 (Sentence-Transformers)  
+        • **LLM:** Llama 3.2-1B via Ollama (Local)  
+        • **RAG Framework:** LangChain with Hybrid Search (MMR)  
+        • **Vector Store:** ChromaDB with HuggingFace embeddings  
+        • **SQL Database:** SQLite for structured indicators  
+        • **Calendar Support:** Ethiopian Calendar (EC) ↔ Gregorian Calendar (GC)  
         • **Frontend:** Streamlit
         
-        **Performance:**  
-        • Response Time: < 1-2 seconds  
-        • Query Routing: Automatic (PDF/SQL/Both)  
-        • Source Attribution: Full citation with download links
+        **Key Features:**  
+        • Anti-hallucination validation (source verification)  
+        • Hybrid search for improved accuracy  
+        • Automatic query routing (PDF/SQL/Both)  
+        • Ethiopian & Gregorian calendar disambiguation  
+        • Full source attribution with document previews
         
         **Developer:** Yonas Abiyu Gion  
         **Institution:** Bahir Dar University  
@@ -1217,7 +1210,7 @@ with st.sidebar:
         ---
         
         ✅ **Production Ready**  
-        Cost: $0 (100% Free Architecture - Groq Free Tier)
+        Cost: $0 (100% Free - Local LLM via Ollama)
         """)
     
     # Handle about toggle after rendering to avoid delay
@@ -1264,7 +1257,13 @@ st.markdown(f"""
         <div class="welcome-title">Welcome to</div>
         <div class="welcome-main"><span class="welcome-main-et">ET</span> ESS RAG Bot</div>
         <div style="width: 100px; height: 3px; background: linear-gradient(90deg, #4ade80 0%, transparent 100%); margin: 1rem auto;"></div>
-        <div class="welcome-subtitle">AI Assistant for Ethiopia's Sustainable Development Goals</div>
+        <div class="welcome-subtitle">AI-Powered Statistical Data Assistant for Ethiopia</div>
+        <div style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #4ade80; letter-spacing: 2px; text-transform: uppercase;">
+            "YOUR RELIABLE DATA SOURCE"
+        </div>
+        <div style="margin-top: 0.3rem; font-size: 0.85rem; color: #94a3b8; font-style: italic;">
+            Ethiopian Statistical Service
+        </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -1348,7 +1347,21 @@ for idx, message in enumerate(st.session_state.current_messages):
                 with col1:
                     st.metric("⏱️ Response Time", f"{message['metadata']['time']:.2f}s")
                 with col2:
-                    st.metric("📚 Sources", message['metadata']['sources'])
+                    # Calculate unique file count from sources
+                    sources_data = message['metadata'].get('sources_data', [])
+                    if sources_data:
+                        # Count unique files
+                        unique_files = set()
+                        for source in sources_data:
+                            if isinstance(source, dict):
+                                metadata = source.get('metadata', {})
+                                filename = metadata.get('filename', metadata.get('source', 'Unknown'))
+                                unique_files.add(filename)
+                        file_count = len(unique_files)
+                    else:
+                        file_count = 0
+                    
+                    st.metric("📚 Sources", file_count)
                 with col3:
                     st.metric("🎯 Relevance", f"{message['metadata']['top_score']:.2f}")
                 
@@ -1448,7 +1461,8 @@ for idx, message in enumerate(st.session_state.current_messages):
                                             use_container_width=True
                                         )
                                 else:
-                                    st.caption("⚠️ File not found")
+                                    # Show info message instead of error for missing files
+                                    st.caption("ℹ️ Source data only")
                             
                             st.markdown("---")
                     else:
@@ -1493,7 +1507,7 @@ for idx, message in enumerate(st.session_state.current_messages):
                         has_sql = 'SQL Database' in query_engines
                         
                         st.markdown("### 📚 Source Documents")
-                        st.markdown("*Download the complete documents used to generate this answer:*")
+                        st.markdown(f"*{len(sources_by_file)} unique document(s) from {len(sources_data)} total chunks*")
                         st.markdown("---")
                         
                         # Display PDF sources
@@ -1523,9 +1537,11 @@ for idx, message in enumerate(st.session_state.current_messages):
                             with col1:
                                 st.markdown(f"{icon} **{source_type} Report**")
                                 st.caption(f"📎 {filename}")
+                                if not os.path.exists(file_path):
+                                    st.caption("💾 Referenced from vector database")
                             
                             with col2:
-                                # Download button
+                                # Download button - only show if file exists
                                 if os.path.exists(file_path):
                                     with open(file_path, 'rb') as f:
                                         st.download_button(
@@ -1537,7 +1553,8 @@ for idx, message in enumerate(st.session_state.current_messages):
                                             use_container_width=True
                                         )
                                 else:
-                                    st.caption("⚠️ File not found")
+                                    # Show info message instead of error
+                                    st.caption("ℹ️ Source data only")
                             
                             st.markdown("---")
                         
@@ -1555,12 +1572,14 @@ for idx, message in enumerate(st.session_state.current_messages):
                                     goal_num = excel_source.get('goal_number', 0)
                                     
                                     excel_file = os.path.join("data", "raw", "un_sdg_excel", filename)
-                                    if os.path.exists(excel_file):
-                                        col1, col2 = st.columns([3, 1])
-                                        with col1:
-                                            st.markdown(f"📊 **UN SDG Goal {goal_num}**")
-                                            st.caption(f"📎 {filename}")
-                                        with col2:
+                                    
+                                    # Always display the source, even if file doesn't exist locally
+                                    col1, col2 = st.columns([3, 1])
+                                    with col1:
+                                        st.markdown(f"📊 **UN SDG Goal {goal_num}**")
+                                        st.caption(f"📎 {filename}")
+                                    with col2:
+                                        if os.path.exists(excel_file):
                                             with open(excel_file, 'rb') as f:
                                                 st.download_button(
                                                     label="📥 Download",
@@ -1570,7 +1589,9 @@ for idx, message in enumerate(st.session_state.current_messages):
                                                     key=f"download_excel_{sources_key}_{goal_num}",
                                                     use_container_width=True
                                                 )
-                                        st.markdown("---")
+                                        else:
+                                            st.caption("💾 Source data only")
+                                    st.markdown("---")
                             else:
                                 # Fallback: detect from query text
                                 # Show relevant SDG goal files
@@ -1581,7 +1602,7 @@ for idx, message in enumerate(st.session_state.current_messages):
                                 # Map keywords to SDG goals
                                 goal_keywords = {
                                     1: ['poverty', 'poor'],
-                                    2: ['hunger', 'food', 'agriculture'],
+                                    2: ['hunger', 'food', 'agriculture', 'livestock', 'animal', 'cattle', 'farming'],
                                     3: ['health', 'medical', 'disease'],
                                     4: ['education', 'school'],
                                     5: ['gender', 'women'],
@@ -1627,9 +1648,14 @@ for idx, message in enumerate(st.session_state.current_messages):
                                                         use_container_width=True
                                                     )
                         
-                        # Show total count
-                        if pdf_count == 0 and not has_sql:
-                            st.info("ℹ️ No source documents available for this response")
+                        # Show message if no ESS PDF sources found
+                        if pdf_count == 0:
+                            if has_sql or excel_sources:
+                                # SDG has data, but ESS doesn't
+                                st.info("ℹ️ No ESS PDF documents found for this query (UN SDG Database provided data above)")
+                            else:
+                                # Neither engine has data
+                                st.info("ℹ️ No source documents available for this response")
                 
                 # RELATED QUESTIONS (Phase 7C - Task 7C.4)
                 # Display AI-generated follow-up questions

@@ -62,7 +62,7 @@ class PDFExporter:
             parent=self.styles['Normal'],
             fontSize=10,
             fontName='Times-Roman',  # Times New Roman
-            textColor=HexColor('#e0e0e0'),
+            textColor=HexColor('#000000'),  # Black for better readability
             spaceAfter=8,
             leftIndent=10,
             leading=14
