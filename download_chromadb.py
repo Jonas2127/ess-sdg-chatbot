@@ -23,8 +23,8 @@ import sys
 def download_large_files():
     """Download large files from Hugging Face on Streamlit Cloud startup"""
     
-    # TODO: UPDATE THIS WITH YOUR HUGGING FACE USERNAME!
-    HF_USERNAME = "YOUR_USERNAME_HERE"  # ⚠️ CHANGE THIS!
+    # Hugging Face username
+    HF_USERNAME = "yonasabiyu"
     HF_REPO = f"{HF_USERNAME}/ess-sdg-chatbot-data"
     
     # Hugging Face download URLs
