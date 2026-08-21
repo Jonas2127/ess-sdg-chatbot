@@ -1,0 +1,73 @@
+# ==============================================================================
+# DUAL-ENGINE RAG CHATBOT - ETHIOPIAN STATISTICAL SERVICE (ESS)
+# ==============================================================================
+# Optimized for Streamlit Cloud Deployment with Python 3.11
+# ==============================================================================
+
+# Core Framework
+streamlit>=1.31.0
+python-dotenv>=1.0.0
+
+# LangChain Ecosystem
+langchain>=0.1.20
+langchain-core>=0.1.52
+langchain-community>=0.0.38
+langchain-experimental>=0.0.60
+langchain-groq>=0.1.5
+langchain-text-splitters>=0.0.2
+
+# Google Gemini Support (supports AQ. token format)
+google-genai>=0.2.0
+
+# Vector Database (Engine A)
+chromadb>=0.4.24
+sentence-transformers>=2.6.0
+
+# PDF Processing (Engine A)
+pdfplumber>=0.10.0
+PyPDF2>=3.0.1
+
+# Excel & SQL Processing (Engine B)
+pandas>=2.2.0
+openpyxl>=3.1.0
+sqlalchemy>=2.0.0
+
+# Embeddings & NLP (Let pip choose compatible versions)
+torch>=2.0.0
+transformers>=4.30.0
+
+# Re-ranking
+sentence-transformers>=2.6.0  # Already included above, supports cross-encoders
+
+# Document Loading & Processing
+unstructured>=0.12.0
+markdown>=3.5
+
+# Utilities
+requests>=2.31.0
+tqdm>=4.66.0
+numpy>=1.24.0
+
+# Export functionality
+reportlab>=4.0.0
+python-docx>=1.0.0
+
+# BM25 for hybrid search
+rank-bm25>=0.2.0
+
+# Hugging Face for downloading ChromaDB
+huggingface-hub>=0.20.0
+
+# Telegram Bot
+python-telegram-bot>=20.0
+
+# ==============================================================================
+# DEPLOYMENT NOTES:
+# ==============================================================================
+# 1. Uses Python 3.11 (specified in .python-version file)
+# 2. ChromaDB downloaded from Hugging Face on first run
+# 3. Set API keys in Streamlit Cloud secrets:
+#    - GEMINI_API_KEY (recommended - works with AQ. tokens)
+#    - GROQ_API_KEY (alternative)
+#    - LLM_PROVIDER = "gemini" or "groq"
+# ==============================================================================
