@@ -1,0 +1,58 @@
+{
+  "categories": [
+    {
+      "name": "Price & Consumer Statistics (ESS)",
+      "questions": [
+        "What is the current Consumer Price Index (CPI)?",
+        "How has inflation changed over time?",
+        "What are food vs non-food price trends?",
+        "Show regional price variations"
+      ]
+    },
+    {
+      "name": "Agriculture & Food Security (ESS Surveys)",
+      "questions": [
+        "What is Ethiopia's agricultural productivity?",
+        "What are the main crops and production volumes?",
+        "How is climate change affecting agriculture?",
+        "Show livestock population statistics"
+      ]
+    },
+    {
+      "name": "Population & Census (ESS Data)",
+      "questions": [
+        "What is Ethiopia's current population?",
+        "What is the urban vs rural distribution?",
+        "Show population by region",
+        "What is the population growth rate?"
+      ]
+    },
+    {
+      "name": "Business & Economic Statistics (ESS)",
+      "questions": [
+        "How many businesses are registered?",
+        "What is the GDP composition by sector?",
+        "Show employment statistics",
+        "What are the major economic indicators?"
+      ]
+    },
+    {
+      "name": "SDG Progress & Indicators (UN Data)",
+      "questions": [
+        "What is Ethiopia's progress on SDG Goal 1 (Poverty)?",
+        "Show all 17 SDG indicators for Ethiopia",
+        "Compare SDG performance across years",
+        "What is the education enrollment rate?"
+      ]
+    },
+    {
+      "name": "National Strategy & Policy (AfDB)",
+      "questions": [
+        "What is Ethiopia's green growth strategy?",
+        "How does GTP II align with AfDB support?",
+        "What are the infrastructure development priorities?",
+        "Show macro-governance frameworks"
+      ]
+    }
+  ]
+}

@@ -18,30 +18,19 @@ data/embeddings/
 data/processed/*.csv
 data/processed/*.json
 
-# PDF source files - NOT needed for deployment (only ChromaDB vector store is used at runtime)
+# PDF source files - not needed for deployment
 data/raw/ess_reports/pdfs/
 data/raw/afdb_reports/
 
-# ChromaDB - TOO LARGE for GitHub (805 MB), will be hosted on Hugging Face and downloaded at runtime
+# ChromaDB - hosted on Hugging Face
 data/vectorstore/chromadb/
 chromadb.zip
 
-# User-generated conversation history (each deployment has its own)
+# User-generated conversation history
 data/conversation_history.json
 
-# SQL Database files (large, frequently changing)
+# SQL Database files
 data/sql_database/*.db
-
-# New PDF files
-data/raw/new_pdfs/
-
-# Temporary utility scripts
-add_new_pdfs.py
-download_pdf_files.py
-extract_pdfs_from_zip.ps1
-PUSH_TO_GITHUB_COMMANDS.txt
-FILES_TO_REVIEW.md
-cleanup_before_push.ps1
 
 # IDE
 .vscode/
@@ -61,6 +50,11 @@ exports/*.png
 !exports/.gitkeep
 !data/raw/un_sdg_manual/.gitkeep
 !data/processed/.gitkeep
+
+# Virtual environment
+venv/
+env/
+.venv/
 
 # Archive
 archive/
