@@ -79,7 +79,7 @@ class LangChainDualEngineRAG:
             if api_key:
                 try:
                     llm = ChatGroq(
-                        model="llama3-8b-8192",
+                        model="llama-3.1-8b-instant",
                         temperature=0.7,
                         api_key=api_key
                     )
@@ -170,18 +170,19 @@ class LangChainDualEngineRAG:
             )
             
             self.pdf_prompt = PromptTemplate(
-                template="""You are an expert on Ethiopian Statistical Service (ESS) documents.
+                template="""You are an expert analyst for Ethiopian Statistical Service (ESS) data.
 
-RULES:
-1. Answer ONLY using information from the Context below
-2. If Context doesn't contain the answer, say "The provided context does not contain information about [topic]"
-3. Never make up data or use external knowledge
-4. For dates/years, specify Ethiopian Calendar (EC) or Gregorian Calendar (GC)
-
-Context:
+Context from ESS documents:
 {context}
 
 Question: {question}
+
+INSTRUCTIONS:
+- Answer the question using ONLY the information in the Context above
+- Extract and present relevant statistics, numbers, and facts from the Context
+- If the Context contains partial information, provide what's available
+- Be specific and cite data points when available
+- ONLY say "no information available" if the Context is completely unrelated to the question
 
 Answer:""",
                 input_variables=["context", "question"]
@@ -211,39 +212,157 @@ Answer:""",
     
     def detect_query_type(self, query: str) -> str:
         """
-        Determine which engine(s) to use for the query.
+        Intelligently determine which engine(s) to use based on SEMANTIC and keyword analysis.
+        Uses embedding similarity to understand query intent beyond just keywords.
         
         Returns:
-            'pdf' - Use PDF documents only
-            'sql' - Use SQL database only  
-            'both' - Use both engines
+            'pdf': Use Engine A (ESS PDF documents)
+            'sql': Use Engine B (UN SDG Excel data)
+            'both': Use both engines (query spans both data sources)
         """
         query_lower = query.lower()
         
-        # PDF-only keywords (policy, strategy documents)
-        pdf_keywords = [
-            'what is ess', 'green growth strategy', 'crge',
-            'policy framework', 'afdb report', 'infrastructure project'
-        ]
-        if any(kw in query_lower for kw in pdf_keywords):
+        # Strong PDF indicators - ESS-specific content
+        pdf_keywords = {
+            'strong': [
+                'cpi', 'consumer price index', 'inflation', 'price survey',
+                'agricultural survey', 'livestock', 'crop production', 'harvest',
+                'business survey', 'enterprise', 'establishment',
+                'census', 'population census', 'housing census',
+                'ess report', 'ess survey', 'ess document',
+                'amhara', 'oromia', 'tigray', 'snnpr', 'afar', 'somali',
+                'addis ababa', 'dire dawa', 'regional',
+                'quarterly', 'monthly bulletin', 'annual report',
+                'green growth strategy', 'crge', 'policy framework', 'afdb'
+            ],
+            'moderate': [
+                'price', 'market', 'inflation rate',
+                'agriculture', 'farming', 'food security',
+                'business', 'economic', 'industry',
+                'employment', 'labor', 'worker',
+                'household', 'family', 'demographic'
+            ]
+        }
+        
+        # Strong SQL indicators - SDG-specific
+        sql_keywords = {
+            'strong': [
+                'sdg', 'sustainable development goal', 'goal 1', 'goal 2', 'goal 3',
+                'target', 'indicator', 'mdg', 'millennium development',
+                'un data', 'united nations', 'global indicator',
+                'poverty rate', 'poverty headcount', 'extreme poverty',
+                'mortality rate', 'under-5 mortality', 'maternal mortality',
+                'enrollment rate', 'literacy rate', 'education index',
+                'gender parity', 'gender equality index',
+                'access to electricity', 'renewable energy',
+                'water sanitation', 'safe drinking water',
+                'all sdg indicators', 'list all goals', 'sdg database'
+            ],
+            'moderate': [
+                'poverty', 'hunger', 'malnutrition',
+                'health', 'education', 'school',
+                'gender', 'women', 'equality',
+                'water', 'sanitation', 'energy',
+                'unemployment', 'inequality', 'rate', 'percentage'
+            ]
+        }
+        
+        # 1. KEYWORD-BASED SCORING
+        pdf_keyword_score = 0
+        sql_keyword_score = 0
+        
+        # Strong matches (worth 3 points)
+        for keyword in pdf_keywords['strong']:
+            if keyword in query_lower:
+                pdf_keyword_score += 3
+                break
+        
+        for keyword in sql_keywords['strong']:
+            if keyword in query_lower:
+                sql_keyword_score += 3
+                break
+        
+        # Moderate matches (worth 1 point each, max 2)
+        pdf_moderate_count = sum(1 for kw in pdf_keywords['moderate'] if kw in query_lower)
+        sql_moderate_count = sum(1 for kw in sql_keywords['moderate'] if kw in query_lower)
+        
+        pdf_keyword_score += min(pdf_moderate_count, 2)
+        sql_keyword_score += min(sql_moderate_count, 2)
+        
+        # 2. SEMANTIC SIMILARITY SCORING
+        try:
+            # Reference queries for each engine type
+            pdf_reference_queries = [
+                "What is the current Consumer Price Index in Ethiopia?",
+                "Show me agricultural production statistics from ESS surveys",
+                "What are the regional business statistics?",
+                "Population census data by region"
+            ]
+            
+            sql_reference_queries = [
+                "What is Ethiopia's SDG poverty rate indicator?",
+                "Show all sustainable development goal indicators",
+                "What is the child mortality rate target?",
+                "Gender equality index and education enrollment rates"
+            ]
+            
+            # Get embeddings
+            query_embedding = self.embeddings.embed_query(query)
+            
+            # Calculate similarity with PDF references
+            pdf_similarities = []
+            for ref_query in pdf_reference_queries:
+                ref_embedding = self.embeddings.embed_query(ref_query)
+                # Cosine similarity
+                similarity = sum(a * b for a, b in zip(query_embedding, ref_embedding)) / (
+                    (sum(a * a for a in query_embedding) ** 0.5) * 
+                    (sum(b * b for b in ref_embedding) ** 0.5)
+                )
+                pdf_similarities.append(similarity)
+            
+            # Calculate similarity with SQL references
+            sql_similarities = []
+            for ref_query in sql_reference_queries:
+                ref_embedding = self.embeddings.embed_query(ref_query)
+                similarity = sum(a * b for a, b in zip(query_embedding, ref_embedding)) / (
+                    (sum(a * a for a in query_embedding) ** 0.5) * 
+                    (sum(b * b for b in ref_embedding) ** 0.5)
+                )
+                sql_similarities.append(similarity)
+            
+            # Get max similarity scores
+            pdf_semantic_score = max(pdf_similarities) * 10  # Scale to 0-10
+            sql_semantic_score = max(sql_similarities) * 10
+            
+            print(f"[SEMANTIC] PDF similarity: {pdf_semantic_score:.2f}, SQL similarity: {sql_semantic_score:.2f}")
+            
+        except Exception as e:
+            print(f"[WARN] Semantic scoring failed: {e}")
+            pdf_semantic_score = 0
+            sql_semantic_score = 0
+        
+        # 3. COMBINE SCORES (60% semantic, 40% keyword)
+        pdf_total_score = (pdf_semantic_score * 0.6) + (pdf_keyword_score * 0.4)
+        sql_total_score = (sql_semantic_score * 0.6) + (sql_keyword_score * 0.4)
+        
+        print(f"[ROUTING] PDF score: {pdf_total_score:.2f}, SQL score: {sql_total_score:.2f}")
+        
+        # 4. DECISION LOGIC
+        score_diff = abs(pdf_total_score - sql_total_score)
+        
+        if pdf_total_score >= 4 and sql_total_score < 3:
             return 'pdf'
-        
-        # SQL-only keywords (database operations)
-        sql_keywords = [
-            'all sdg indicators', 'list all goals', 'sdg database'
-        ]
-        if any(kw in query_lower for kw in sql_keywords):
+        elif sql_total_score >= 4 and pdf_total_score < 3:
             return 'sql'
-        
-        # Indicator keywords suggest using both engines
-        indicator_keywords = [
-            'poverty', 'education', 'health', 'mortality', 'enrollment',
-            'rate', 'percentage', 'sdg', 'goal', 'indicator'
-        ]
-        if any(kw in query_lower for kw in indicator_keywords):
+        elif score_diff < 1.5 and (pdf_total_score >= 2.5 or sql_total_score >= 2.5):
+            # Scores are close and both relevant - use both
             return 'both'
-        
-        return 'both'
+        elif pdf_total_score > sql_total_score:
+            return 'pdf'
+        elif sql_total_score > pdf_total_score:
+            return 'sql'
+        else:
+            return 'pdf'  # Default to PDF
     
     def _rerank_documents(self, query: str, documents: list, top_k: int = 7) -> list:
         """Re-rank retrieved documents using cross-encoder for better relevance."""
@@ -322,26 +441,43 @@ Answer:""",
         query_lower = query.strip().lower()
         
         # Handle greetings
-        greetings = ['hi', 'hello', 'hey', 'greetings', 'good morning', 'good afternoon']
-        if any(greet in query_lower for greet in greetings):
+        greetings = ['hi', 'hello', 'hey', 'greetings', 'good morning', 'good afternoon', 'howdy']
+        if any(greet == query_lower or query_lower.startswith(greet + ' ') for greet in greetings):
             return False, "greeting"
         
-        # Check for gibberish (too few vowels or too many consonants)
-        if len(query_lower) > 5:
-            vowels = sum(1 for c in query_lower if c in 'aeiou')
-            consonants = sum(1 for c in query_lower if c.isalpha() and c not in 'aeiou')
-            
-            if vowels < len(query_lower) * 0.15:  # Less than 15% vowels
-                return False, "gibberish"
-            
-            if consonants > len(query_lower) * 0.85:  # More than 85% consonants
-                return False, "gibberish"
+        # Handle meta questions about the chatbot itself
+        meta_questions = [
+            'who are you', 'what are you', 'who r u', 'what r u',
+            'what is your name', 'tell me about yourself',
+            'what can you do', 'what do you do', 'how do you work',
+            'who made you', 'who created you', 'who built you',
+            'what is this', 'what is this chatbot', 'explain yourself'
+        ]
+        if any(meta in query_lower for meta in meta_questions):
+            return False, "meta_question"
         
-        # Check minimum meaningful length
-        words = query_lower.split()
-        if len(words) < 2 and len(query_lower) < 5:
+        # Improved gibberish detection - LESS STRICT
+        if len(query_lower) >= 4:
+            # Remove spaces and special chars for analysis
+            letters_only = ''.join(c for c in query_lower if c.isalpha())
+            
+            if len(letters_only) >= 4:
+                vowels = sum(1 for c in letters_only if c in 'aeiou')
+                vowel_ratio = vowels / len(letters_only)
+                
+                # RELAXED: Only flag as gibberish if VERY few vowels (like "hhj", "xzqr")
+                if vowel_ratio < 0.10 and len(letters_only) >= 5:  # Less than 10% vowels AND at least 5 letters
+                    return False, "gibberish"
+                
+                # Check for completely random characters (no vowels at all in short strings)
+                if vowels == 0 and len(letters_only) <= 4:
+                    return False, "gibberish"
+        
+        # Very short queries without meaning
+        if len(query_lower) < 2:
             return False, "too_short"
         
+        # Everything else is valid
         return True, "valid"
     
     def _is_sdg_query(self, query: str) -> bool:
@@ -409,13 +545,15 @@ Answer:""",
             
             answer_text = answer.content if hasattr(answer, 'content') else str(answer)
             
-            # Check if LLM says no data found
+            # Check if LLM explicitly says no information (be less aggressive)
             no_data_phrases = [
-                "does not contain", "cannot find", "not provided",
-                "not mentioned", "no data available"
+                "no information available",
+                "context is completely unrelated",
+                "cannot answer this question"
             ]
             
-            if any(phrase in answer_text.lower() for phrase in no_data_phrases):
+            # Only return "no data" if answer is VERY SHORT and contains no-data phrase
+            if len(answer_text.strip()) < 50 and any(phrase in answer_text.lower() for phrase in no_data_phrases):
                 return {
                     'engine': 'PDF RAG',
                     'answer': 'No relevant data found in ESS PDF documents.',
@@ -520,6 +658,13 @@ SQL Query:"""
                     'source_count': 0,
                     'response_time': 0
                 }
+            elif validation_type == "meta_question":
+                return {
+                    'answer': "I am the ET ESS RAG Bot - an AI assistant designed to help you access Ethiopian Statistical Service (ESS) data and UN Sustainable Development Goal (SDG) indicators. I can answer questions about:\n\n• Consumer Price Index and inflation statistics\n• Agricultural surveys and livestock data\n• Population census and demographic information\n• Business and economic statistics\n• SDG progress indicators for Ethiopia\n• Policy frameworks and development strategies\n\nAsk me about any Ethiopian statistics or SDG indicators!",
+                    'sources': [],
+                    'source_count': 0,
+                    'response_time': 0
+                }
             elif validation_type == "gibberish":
                 return {
                     'answer': "I couldn't understand your question. Please rephrase using clear language.",
@@ -546,15 +691,40 @@ SQL Query:"""
             pdf_result = self.query_engine_a(question)
             sql_result = self.query_engine_b(question)
             
-            # Combine results
-            combined_answer = f"From ESS PDF Documents: {pdf_result.get('answer', 'No data')}\n\n"
-            combined_answer += f"From UN SDG Database: {sql_result.get('answer', 'No data')}"
+            # Check if either engine has actual data
+            pdf_has_data = (
+                pdf_result.get('source_count', 0) > 0 and
+                'no relevant data' not in pdf_result.get('answer', '').lower()
+            )
+            sql_has_data = (
+                sql_result.get('source_count', 0) > 0 and
+                'does not appear to be' not in sql_result.get('answer', '').lower()
+            )
             
-            result = {
-                'answer': combined_answer,
-                'sources': pdf_result.get('sources', []) + sql_result.get('sources', []),
-                'source_count': pdf_result.get('source_count', 0) + sql_result.get('source_count', 0)
-            }
+            # Smart combining based on what has data
+            if pdf_has_data and sql_has_data:
+                # Both have data - combine them
+                combined_answer = f"From ESS PDF Documents:\n{pdf_result.get('answer', 'No data')}\n\n"
+                combined_answer += f"From UN SDG Database:\n{sql_result.get('answer', 'No data')}"
+                
+                result = {
+                    'answer': combined_answer,
+                    'sources': pdf_result.get('sources', []) + sql_result.get('sources', []),
+                    'source_count': pdf_result.get('source_count', 0) + sql_result.get('source_count', 0)
+                }
+            elif pdf_has_data:
+                # Only PDF has data - use it
+                result = pdf_result
+            elif sql_has_data:
+                # Only SQL has data - use it
+                result = sql_result
+            else:
+                # Neither has data
+                result = {
+                    'answer': "I couldn't find relevant information in either the ESS PDF documents or the UN SDG database for this query.",
+                    'sources': [],
+                    'source_count': 0
+                }
         
         result['response_time'] = time.time() - start_time
         

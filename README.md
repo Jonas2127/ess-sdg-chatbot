@@ -1,339 +1,428 @@
-# ESS SDG Dual-Engine RAG Chatbot
+# ET ESS RAG Bot
 
-A retrieval-augmented generation (RAG) chatbot that provides natural language access to Ethiopian Statistical Service data and UN Sustainable Development Goal indicators.
+**Intelligent Statistical Data Assistant & Policy Analyst for Ethiopian Statistical Service**
 
-## Overview
+An advanced dual-engine RAG (Retrieval-Augmented Generation) chatbot that provides natural language access to Ethiopian Statistical Service data and UN Sustainable Development Goal indicators with semantic query routing, intelligent validation, and accurate source attribution.
 
-This project implements a dual-engine RAG system that processes both unstructured (PDF documents) and structured (Excel spreadsheets) data sources. Users can ask questions in natural language and receive accurate answers with source citations.
+---
 
-### Key Features
+## 🎯 Key Features
 
-- **Dual-Engine Architecture**: Separate engines for unstructured and structured data
-- **221 ESS PDF Reports**: Demographics, agriculture, CPI, business statistics
-- **17 UN SDG Excel Files**: 12,037 indicators across all SDG goals
-- **Source Citation**: All answers include references to source documents
-- **Multiple Interfaces**: Web UI (Streamlit) and Telegram bot
-- **Export Functionality**: Save conversations as PDF or Word documents
+### Intelligent Query Processing
+- **Semantic Query Routing**: Automatically routes queries to the correct database using 60% semantic similarity + 40% keyword matching
+- **Gibberish Detection**: Validates queries and rejects random keyboard inputs
+- **Meta Question Handling**: Responds to questions about the bot itself without searching databases
+- **Smart Engine Selection**: Intelligently chooses between PDF search, SQL database, or both based on query intent
 
-## Architecture
+### Dual-Engine Architecture
+- **Engine A (PDF RAG)**: 221 ESS PDF documents with ChromaDB vector search and cross-encoder re-ranking
+- **Engine B (SQL Database)**: 17 UN SDG Excel files (12,037 indicators) with structured SQL queries
+- **MMR Retrieval**: Maximal Marginal Relevance for diverse document retrieval
+- **Cross-Encoder Re-Ranking**: Improves relevance from 15 to 7 top documents
+
+### Quality Assurance
+- **Accurate Source Filtering**: Only shows documents actually used in the answer (30% relevance threshold)
+- **Smart Result Combining**: Only combines engines when both have relevant data
+- **No False Sources**: Sources cleared when no relevant data found
+- **Answer Validation**: Checks LLM responses for actual information content
+
+### Multiple LLM Support
+- **Ollama**: Local inference (llama3.2:1b) - No API keys required
+- **Groq**: Fast cloud inference (~2-3 seconds)
+- **Google Gemini**: Alternative cloud option (~1-2 seconds)
+- **HuggingFace**: Backup cloud provider
+
+---
+
+## 📊 Data Sources
+
+### ESS PDF Documents (Engine A)
+- **Consumer Price Index (CPI)**: Monthly bulletins and inflation reports
+- **Agricultural Surveys**: Crop production, livestock statistics
+- **Population Census**: Demographics, regional distribution
+- **Business Statistics**: Enterprise surveys, economic indicators
+- **Total**: 221 PDF documents
+
+### UN SDG Database (Engine B)
+- **All 17 SDG Goals**: Comprehensive indicator coverage
+- **12,037 Indicators**: Time-series data (2000-2023)
+- **Structured Queries**: Direct SQL access for precise data retrieval
+- **Regional Breakdowns**: Where available
+
+### Policy Documents
+- **AfDB Reports**: Green growth strategy, GTP II framework
+- **Infrastructure Priorities**: Development frameworks
+
+---
+
+## 🏗️ Architecture
 
 ```
 User Query
     ↓
-Query Router (determines engine)
+Query Validation (Gibberish/Meta/Greeting Detection)
     ↓
-┌─────────────────────┬──────────────────────┐
-│   Engine A          │   Engine B           │
-│   PDF RAG           │   Excel SQL          │
-│                     │                      │
-│   ChromaDB          │   SQLite             │
-│   Vector Search     │   SQL Queries        │
-│   15 docs retrieved │   Structured Data    │
-│   Re-ranked to 7    │   Direct Queries     │
-└─────────────────────┴──────────────────────┘
+Semantic + Keyword Analysis (60% + 40%)
     ↓
-Context Assembly
+Smart Routing Decision
     ↓
-LLM (Groq/Gemini/Ollama/HuggingFace)
+┌─────────────────────────────┬────────────────────────────┐
+│   Engine A: PDF RAG         │   Engine B: SQL Database   │
+│   • ChromaDB Vector Search  │   • SQLite Queries         │
+│   • MMR Retrieval (15 docs) │   • Structured Data        │
+│   • Cross-Encoder Rerank    │   • Direct Access          │
+│   • Filter to 7 best docs   │                            │
+└─────────────────────────────┴────────────────────────────┘
     ↓
-Response + Sources
+Context Assembly + LLM Generation
+    ↓
+Source Filtering (Only Used Documents)
+    ↓
+Response + Accurate Citations
 ```
 
-### How It Works
+### Query Routing Logic
 
-1. **Document Processing** (offline):
-   - PDFs extracted and split into chunks
-   - Text embedded using sentence-transformers
-   - Stored in ChromaDB vector database
-   - Excel files converted to SQLite database
+**PDF Engine Selected When:**
+- CPI, inflation, price survey keywords
+- Agricultural surveys, livestock mentions
+- Regional names (Amhara, Oromia, etc.)
+- ESS-specific terminology
 
-2. **Query Processing** (runtime):
-   - User query analyzed to determine data source
-   - Relevant documents/data retrieved
-   - Context assembled and passed to LLM
-   - Response generated with source citations
+**SQL Engine Selected When:**
+- SDG goal numbers, poverty rate
+- Mortality, enrollment indicators
+- UN data, global indicators
+- Structured indicator queries
 
-3. **Quality Controls**:
-   - Cross-encoder re-ranking for relevance
-   - Source filtering (only show used documents)
-   - Answer validation against sources
-   - Gibberish/greeting detection
+**Both Engines When:**
+- Query spans both domains
+- Ambiguous but relevant to both
+- Combined score threshold met
 
-## Data Sources
+---
 
-### ESS PDF Documents (Engine A)
-- **Consumer Price Index (CPI)** reports (monthly bulletins)
-- **Agricultural surveys** (crop production, livestock)
-- **Population census** data
-- **Business statistics**
-- Total: 221 PDF documents
+## 🚀 Quick Start
 
-### UN SDG Database (Engine B)
-- **17 SDG Goals** with associated indicators
-- **12,037 indicators** across all goals
-- **Time-series data** from 2000-2023
-- **Regional breakdowns** where available
+### Prerequisites
+- Python 3.8+
+- 4GB+ RAM
+- Ollama installed (for local LLM)
 
-### AfDB Policy Documents
-- **Green growth strategy**
-- **GTP II alignment framework**
-- **Infrastructure priorities**
+### Installation
 
-## Technology Stack
-
-### Core Framework
-- **LangChain**: RAG orchestration and chaining
-- **ChromaDB**: Vector database for semantic search
-- **SQLite**: Structured data queries
-- **Sentence Transformers**: Text embeddings (all-MiniLM-L6-v2)
-
-### LLM Providers (configurable)
-- **Ollama**: Local LLM (Llama 3.2-1B)
-- **Groq**: Cloud API (fastest)
-- **Gemini**: Google's API
-- **HuggingFace**: Alternative cloud option
-
-### User Interfaces
-- **Streamlit**: Web application
-- **Telegram**: Bot interface for 24/7 access
-
-### Additional Libraries
-- **pdfplumber**: PDF text extraction
-- **pandas**: Data manipulation
-- **ReportLab**: PDF export
-- **python-docx**: Word export
-
-## Project Structure
-
-```
-ess-sdg-chatbot/
-├── src/
-│   ├── dual_engine_router/
-│   │   ├── langchain_rag.py       # Main RAG system
-│   │   └── google_genai_llm.py    # Custom Gemini wrapper
-│   ├── engine_a_pdf_rag/
-│   │   ├── pdf_processor.py       # PDF extraction
-│   │   └── chromadb_vectorstore.py # Vector DB management
-│   ├── engine_b_excel_sql/
-│   │   └── excel_processor.py     # Excel to SQL conversion
-│   └── export/
-│       ├── pdf_exporter.py        # Conversation export
-│       └── word_exporter.py
-├── data/
-│   ├── raw/
-│   │   ├── ess_reports/pdfs/      # ESS PDF files
-│   │   ├── afdb_reports/          # AfDB documents
-│   │   └── un_sdg_excel/          # SDG Excel files
-│   ├── vectorstore/chromadb/      # Vector database
-│   ├── sql_database/              # SQLite database
-│   └── faq_database.json          # FAQ questions
-├── docs/
-│   ├── ARCHITECTURE.md            # System design details
-│   ├── SETUP.md                   # Installation guide
-│   └── DEPLOYMENT.md              # Cloud deployment
-├── assets/                         # Logos and images
-├── streamlit_app.py               # Web interface
-├── telegram_bot.py                # Telegram interface
-├── build_dual_engine.py           # Database builder
-├── download_chromadb.py           # HuggingFace integration
-├── requirements.txt               # Python dependencies
-└── .env.example                   # Environment template
+1. **Clone Repository**
+```bash
+git clone https://github.com/Jonas2127/ess-sdg-chatbot.git
+cd ess-sdg-chatbot
 ```
 
-## Installation
+2. **Install Dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-See [docs/SETUP.md](docs/SETUP.md) for detailed installation instructions.
+3. **Setup Ollama (No API Keys Required)**
+```bash
+# Download from https://ollama.com/download
+ollama pull llama3.2:1b
+```
 
-### Quick Start
+4. **Configure Environment**
+```bash
+cp .env.example .env
+# Edit .env: Set LLM_PROVIDER=ollama
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Jonas2127/ess-sdg-chatbot.git
-   cd ess-sdg-chatbot
-   ```
+5. **Download Databases** (First Time Only)
+```bash
+python download_chromadb.py
+```
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Configure environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
-   ```
-
-4. **Build databases** (first time only)
-   ```bash
-   python build_dual_engine.py
-   ```
-
-5. **Run the application**
-   ```bash
-   streamlit run streamlit_app.py
-   ```
-
-## Usage
-
-### Web Interface
-
+6. **Run Application**
 ```bash
 streamlit run streamlit_app.py
 ```
 
-Open your browser to `http://localhost:8501`
+Visit `http://localhost:8501`
 
-### Telegram Bot
+---
 
-```bash
-python telegram_bot.py
-```
+## ⚙️ Configuration
 
-Chat with the bot on Telegram after configuring `TELEGRAM_BOT_TOKEN`
-
-### Example Queries
-
-**ESS Statistics:**
-- "What is the current Consumer Price Index?"
-- "Show me agricultural production by region"
-- "What is Ethiopia's population?"
-
-**SDG Indicators:**
-- "What is the poverty rate in 2021?"
-- "Show education enrollment trends"
-- "Compare health indicators over time"
-
-**Policy Questions:**
-- "What is Ethiopia's green growth strategy?"
-- "Explain the GTP II framework"
-
-## Configuration
-
-### Environment Variables
-
-Create a `.env` file with:
+### Environment Variables (`.env`)
 
 ```env
-# LLM Provider (ollama, groq, gemini, huggingface)
-LLM_PROVIDER=groq
+# LLM Provider Selection
+LLM_PROVIDER=ollama  # Options: ollama, groq, gemini, huggingface
 
-# API Keys
-GROQ_API_KEY=your_groq_key_here
-GEMINI_API_KEY=your_gemini_key_here
-HUGGINGFACE_API_TOKEN=your_hf_token_here
+# API Keys (Optional - for cloud providers)
+GROQ_API_KEY=your_groq_key
+GEMINI_API_KEY=your_gemini_key
+HUGGINGFACE_API_TOKEN=your_hf_token
 
-# Telegram (optional)
-TELEGRAM_BOT_TOKEN=your_telegram_token_here
+# Telegram Bot (Optional)
+TELEGRAM_BOT_TOKEN=your_telegram_token
 ```
 
-### LLM Provider Selection
-
-The system supports multiple LLM providers. Configure in `.env`:
+### LLM Provider Comparison
 
 | Provider | Speed | Cost | Use Case |
 |----------|-------|------|----------|
-| **Ollama** | Slow (15-30s) | Free | Local development |
-| **Groq** | Fast (2-3s) | Free tier | Production (recommended) |
-| **Gemini** | Fast (1-2s) | Free tier | Production (alternative) |
-| **HuggingFace** | Medium (3-5s) | Free tier | Backup option |
+| **Ollama** | 5-10s | Free | Local, offline, no API keys |
+| **Groq** | 2-3s | Free tier | Production (fastest) |
+| **Gemini** | 1-2s | Free tier | Production (alternative) |
+| **HuggingFace** | 3-5s | Free tier | Backup option |
 
-## Deployment
+---
 
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment instructions.
+## 🔍 Usage Examples
 
-### Streamlit Cloud
-
-The application is deployed at: https://ess-rag-chatbot.streamlit.app
-
-For deploying your own instance:
-1. Push code to GitHub
-2. Upload large files to Hugging Face
-3. Configure Streamlit Cloud
-4. Add secrets (API keys)
-
-## Development
-
-### Building Databases
-
-To rebuild the vector and SQL databases:
-
-```bash
-python build_dual_engine.py
+### ESS Statistics Queries
+```
+"What is the current Consumer Price Index?"
+"Show me agricultural production by region"
+"Give me livestock information for all regions"
+"What is Ethiopia's population distribution?"
 ```
 
-This will:
-1. Process all PDF files (221 documents)
-2. Create ChromaDB vector store
-3. Convert Excel files to SQLite
-4. Generate statistics
+### SDG Indicator Queries
+```
+"What is the poverty rate in 2021?"
+"Show education enrollment trends"
+"What is the child mortality rate?"
+"Compare health indicators over time"
+```
 
-Takes approximately 15-20 minutes.
+### Policy Questions
+```
+"What is Ethiopia's green growth strategy?"
+"Explain the GTP II framework"
+```
 
-### Database Maintenance
+### Meta Questions
+```
+"Who are you?"
+"What can you do?"
+```
 
-**Adding new PDFs incrementally:**
+---
+
+## 🛠️ Database Maintenance
+
+### Add New PDFs Incrementally
 
 ```bash
 # Download new PDFs from HuggingFace
 python download_pdf_files.py
 
-# Add them to the database (much faster than rebuilding)
+# Add them to ChromaDB (fast - only processes new files)
 python add_new_pdfs.py
 ```
 
-**See [docs/UTILITIES.md](docs/UTILITIES.md) for detailed instructions on:**
-- Downloading PDFs from HuggingFace
-- Adding new documents to the database
-- Syncing with remote repositories
-- Troubleshooting common issues
+### Rebuild Entire Database
 
-### Testing
+```bash
+# Remove existing database
+rm -rf data/vectorstore/chromadb/
 
-```python
-from src.dual_engine_router import LangChainDualEngineRAG
-
-rag = LangChainDualEngineRAG()
-result = rag.query("What is Ethiopia's poverty rate?")
-print(result['answer'])
+# Rebuild from scratch (15-20 minutes)
+python build_dual_engine.py
 ```
 
-## Limitations
-
-- **Language**: Primarily supports English queries (Amharic support is experimental)
-- **Data Coverage**: Limited to documents provided (2000-2023 for SDG data)
-- **LLM Constraints**: Responses depend on LLM capabilities and context window
-- **Update Frequency**: Manual updates required for new data
-
-## Contributing
-
-This is an academic project. For questions or suggestions, please contact:
-
-- **Author**: Yonas Abiyu Gion
-- **Institution**: Ethiopian Statistical Service
-- **Repository**: https://github.com/Jonas2127/ess-sdg-chatbot
-
-## License
-
-[Specify your license]
-
-## Acknowledgments
-
-- Ethiopian Statistical Service for providing data
-- UN Statistics Division for SDG indicators
-- African Development Bank for policy documents
-- Open-source community for tools and libraries
-
-## References
-
-- LangChain Documentation: https://python.langchain.com/
-- ChromaDB Documentation: https://docs.trychroma.com/
-- Sentence Transformers: https://www.sbert.net/
-- Streamlit: https://streamlit.io/
+See `docs/UTILITIES.md` for detailed maintenance instructions.
 
 ---
 
-**For detailed documentation, see:**
-- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - System design
-- [SETUP.md](docs/SETUP.md) - Installation guide
-- [DEPLOYMENT.md](docs/DEPLOYMENT.md) - Cloud deployment
-- [UTILITIES.md](docs/UTILITIES.md) - Database maintenance utilities
+## 📁 Project Structure
+
+```
+ess-sdg-chatbot/
+├── src/
+│   ├── dual_engine_router/
+│   │   └── langchain_rag.py          # Main RAG system with semantic routing
+│   ├── engine_a_pdf_rag/
+│   │   ├── pdf_processor.py          # PDF extraction
+│   │   └── chromadb_vectorstore.py   # Vector DB management
+│   ├── engine_b_excel_sql/
+│   │   └── excel_processor.py        # Excel to SQL conversion
+│   └── export/
+│       ├── pdf_exporter.py           # Conversation export
+│       └── word_exporter.py
+├── data/
+│   ├── raw/
+│   │   ├── ess_reports/pdfs/         # 221 ESS PDFs
+│   │   ├── afdb_reports/             # Policy documents
+│   │   └── un_sdg_excel/             # 17 SDG Excel files
+│   ├── vectorstore/chromadb/         # Vector database
+│   ├── sql_database/                 # SQLite database
+│   └── faq_database.json             # FAQ questions
+├── streamlit_app.py                  # Web interface
+├── telegram_bot.py                   # Telegram interface
+├── download_chromadb.py              # Database downloader
+├── add_new_pdfs.py                   # Incremental PDF addition
+├── download_pdf_files.py             # PDF file downloader
+├── build_dual_engine.py              # Full database builder
+└── requirements.txt                  # Python dependencies
+```
+
+---
+
+## 🧪 Testing
+
+### Test Validation
+```python
+# Should reject
+"hhj"  → Gibberish detection
+"hi"   → Greeting response
+
+# Should answer
+"who are you?"              → Meta question (no DB search)
+"what is CPI?"              → Routes to PDF
+"what is poverty rate?"     → Routes to SQL
+"population statistics"     → Routes intelligently
+```
+
+### Test Routing
+Check console output for routing decisions:
+```
+[SEMANTIC] PDF similarity: 7.85, SQL similarity: 3.21
+[ROUTING] PDF score: 6.28, SQL score: 2.53
+[INFO] Query type: pdf
+```
+
+---
+
+## 🎨 Features Implemented
+
+### Query Processing
+- ✅ Gibberish detection (vowel ratio analysis)
+- ✅ Meta question handling
+- ✅ Greeting detection
+- ✅ Semantic similarity routing
+- ✅ Keyword matching
+- ✅ Combined scoring (60/40 split)
+
+### Retrieval
+- ✅ MMR retrieval (diverse results)
+- ✅ Cross-encoder re-ranking
+- ✅ Source filtering (only used docs)
+- ✅ Relevance threshold (30%)
+
+### Answer Generation
+- ✅ Context-aware prompting
+- ✅ Answer validation
+- ✅ Smart result combining
+- ✅ Source attribution
+
+### Quality Control
+- ✅ No false positives on "no data"
+- ✅ Accurate source display
+- ✅ Empty source clearing
+- ✅ Response time tracking
+
+---
+
+## 📝 Export Functionality
+
+Export conversations to:
+- **PDF**: Professional reports with ESS logo
+- **Word**: Editable documents for further analysis
+
+---
+
+## 🌐 Deployment
+
+### Streamlit Cloud
+Deployed at: `https://ess-rag-chatbot.streamlit.app`
+
+See `docs/DEPLOYMENT.md` for deployment instructions.
+
+### Telegram Bot
+24/7 access via Telegram interface.
+
+See `TELEGRAM_QUICK_START.md` for setup instructions.
+
+---
+
+## 🤝 Contributing
+
+This is an academic project for Ethiopian Statistical Service.
+
+**Author**: Yonas Abiyu Gion  
+**Institution**: Ethiopian Statistical Service  
+**Repository**: https://github.com/Jonas2127/ess-sdg-chatbot
+
+---
+
+## 📚 Documentation
+
+- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Detailed system design
+- **[SETUP.md](docs/SETUP.md)** - Complete installation guide
+- **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Cloud deployment
+- **[UTILITIES.md](docs/UTILITIES.md)** - Database maintenance
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Q: Chatbot says "No relevant data" for valid questions**  
+A: Check console for routing decision. Query might be routed to wrong engine.
+
+**Q: Slow responses (>10 seconds)**  
+A: Using Ollama locally. Switch to Groq/Gemini for 2-3 second responses.
+
+**Q: "API key invalid" errors**  
+A: Get fresh API keys or switch to Ollama (no keys required).
+
+**Q: Sources showing unrelated documents**  
+A: Fixed in current version - source filtering uses 30% relevance threshold.
+
+---
+
+## 📊 System Performance
+
+- **Query Validation**: <0.01s
+- **Semantic Routing**: ~0.5s
+- **Document Retrieval**: 1-2s
+- **LLM Generation**: 2-10s (depends on provider)
+- **Total Response**: 3-15s
+
+**Database Statistics:**
+- ChromaDB: ~15,000 document chunks
+- SQLite: 12,037 SDG indicators
+- Embedding Model: sentence-transformers/all-MiniLM-L6-v2 (384 dimensions)
+
+---
+
+## 🎓 Academic Context
+
+This chatbot demonstrates:
+- Advanced RAG architecture
+- Semantic search and routing
+- Multi-modal data integration
+- Quality control mechanisms
+- Production-ready deployment
+
+Suitable for academic presentation and demonstration.
+
+---
+
+## 📄 License
+
+[Specify your license]
+
+---
+
+## 🙏 Acknowledgments
+
+- Ethiopian Statistical Service for data
+- UN Statistics Division for SDG indicators
+- African Development Bank for policy documents
+- Open-source community (LangChain, ChromaDB, Streamlit)
+
+---
+
+**Ready for Academic Demonstration** ✨
