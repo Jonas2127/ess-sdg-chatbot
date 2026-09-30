@@ -15,14 +15,47 @@ import json
 from datetime import datetime
 
 # Download ChromaDB from Hugging Face if not present (for Streamlit Cloud deployment)
-if not os.path.exists("data/vectorstore/chromadb/chroma.sqlite3"):
-    with st.spinner("📥 Downloading vector database from Hugging Face... (first time only, ~1 minute)"):
-        from download_chromadb import download_large_files
-        download_large_files()
+chromadb_path = "data/vectorstore/chromadb/chroma.sqlite3"
+sqlite_path = "data/sql_database/sdg_ethiopia.db"
+
+# Check and download if needed
+if not os.path.exists(chromadb_path) or not os.path.exists(sqlite_path):
+    st.info("🌐 First-time setup: Downloading data from Hugging Face...")
+    st.write(f"📍 ChromaDB exists: {os.path.exists(chromadb_path)}")
+    st.write(f"📍 SQLite DB exists: {os.path.exists(sqlite_path)}")
+    
+    with st.spinner("📥 Downloading vector database and SQL data... (first time only, ~2 minutes)"):
+        try:
+            from download_chromadb import download_large_files
+            success = download_large_files()
+            
+            if success:
+                st.success("✅ Data downloaded successfully!")
+                # Verify files exist after download
+                if os.path.exists(chromadb_path) and os.path.exists(sqlite_path):
+                    st.success("✅ All data files verified!")
+                else:
+                    st.error(f"❌ Download completed but files not found!")
+                    st.error(f"ChromaDB: {os.path.exists(chromadb_path)}")
+                    st.error(f"SQLite: {os.path.exists(sqlite_path)}")
+                    st.stop()
+            else:
+                st.error("❌ Failed to download data files. Please check your internet connection.")
+                st.stop()
+        except Exception as e:
+            st.error(f"❌ Error during download: {str(e)}")
+            import traceback
+            st.code(traceback.format_exc())
+            st.stop()
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-from dual_engine_router import LangChainDualEngineRAG
+
+try:
+    from dual_engine_router import LangChainDualEngineRAG
+except ImportError as e:
+    st.error(f"❌ Failed to import LangChainDualEngineRAG: {e}")
+    st.stop()
 
 # File to store conversation history
 HISTORY_FILE = "data/conversation_history.json"
@@ -1034,6 +1067,16 @@ st.markdown(f"""
 if 'rag' not in st.session_state:
     try:
         with st.spinner('🚀 Initializing LangChain Dual-Engine RAG...'):
+            # Verify data files before initialization
+            chromadb_exists = os.path.exists("data/vectorstore/chromadb/chroma.sqlite3")
+            sqlite_exists = os.path.exists("data/sql_database/sdg_ethiopia.db")
+            
+            if not chromadb_exists or not sqlite_exists:
+                st.error("❌ Data files missing!")
+                st.error(f"ChromaDB: {'✅' if chromadb_exists else '❌'}")
+                st.error(f"SQLite: {'✅' if sqlite_exists else '❌'}")
+                st.stop()
+            
             st.session_state.rag = LangChainDualEngineRAG()
             
             # Load conversation history from file ONLY on first load
@@ -1045,6 +1088,8 @@ if 'rag' not in st.session_state:
             st.session_state._first_load = True
     except Exception as e:
         st.error(f"❌ Error initializing RAG system: {str(e)}")
+        import traceback
+        st.code(traceback.format_exc())
         st.stop()
 
 # Register cleanup handler for when script ends
