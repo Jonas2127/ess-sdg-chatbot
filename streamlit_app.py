@@ -105,7 +105,7 @@ st.set_page_config(
     page_title="ET ESS RAG Bot",
     page_icon="🇪🇹",
     layout="wide",
-    initial_sidebar_state="expanded",  # Start expanded, but allow hiding
+    initial_sidebar_state="auto",  # Auto-collapse on mobile
     menu_items={
         'About': "ET ESS RAG Bot - Dual-Engine Statistical Data Assistant & Policy Analyst for Ethiopian Statistical Service"
     }
@@ -337,6 +337,137 @@ st.markdown("""
     [data-testid="stSidebar"] {
         overflow-y: auto !important;
         overflow-x: hidden !important;
+    }
+    
+    /* ============================================
+       MOBILE RESPONSIVE STYLES
+       ============================================ */
+    
+    /* Mobile devices (phones) - max-width: 768px */
+    @media only screen and (max-width: 768px) {
+        /* Reduce padding on mobile */
+        .main .block-container {
+            padding: 0.5rem 1rem !important;
+            max-width: 100% !important;
+        }
+        
+        /* Smaller logo on mobile */
+        .sidebar-logo {
+            width: 80px !important;
+            height: 80px !important;
+        }
+        
+        /* Smaller fonts for titles */
+        .sidebar-title {
+            font-size: 1rem !important;
+        }
+        
+        .sidebar-subtitle {
+            font-size: 0.75rem !important;
+        }
+        
+        /* Touch-friendly buttons (minimum 44px height) */
+        .stButton button {
+            min-height: 44px !important;
+            font-size: 0.9rem !important;
+            padding: 0.6rem 1rem !important;
+        }
+        
+        /* Responsive chat input */
+        .stChatInput textarea {
+            font-size: 16px !important; /* Prevents zoom on iOS */
+            min-height: 44px !important;
+        }
+        
+        /* Smaller status cards */
+        .status-card {
+            padding: 0.75rem !important;
+            margin: 0.75rem 0 !important;
+        }
+        
+        .status-title {
+            font-size: 0.85rem !important;
+        }
+        
+        .status-item {
+            font-size: 0.8rem !important;
+            padding: 0.5rem !important;
+        }
+        
+        /* Compact welcome screen */
+        .welcome-title {
+            font-size: 1.2rem !important;
+        }
+        
+        .welcome-main {
+            font-size: 2rem !important;
+        }
+        
+        .welcome-subtitle {
+            font-size: 0.9rem !important;
+        }
+        
+        /* Responsive source display */
+        .source-item {
+            font-size: 0.8rem !important;
+            padding: 0.5rem !important;
+        }
+        
+        /* Hamburger button - more visible on mobile */
+        button[kind="header"] {
+            width: 44px !important;
+            height: 44px !important;
+        }
+    }
+    
+    /* Extra small devices (very small phones) - max-width: 480px */
+    @media only screen and (max-width: 480px) {
+        /* Even more compact on small phones */
+        .main .block-container {
+            padding: 0.25rem 0.5rem !important;
+        }
+        
+        .welcome-main {
+            font-size: 1.5rem !important;
+        }
+        
+        .sidebar-header {
+            padding: 1rem 0.5rem !important;
+        }
+        
+        /* Stack elements vertically on very small screens */
+        .stButton button {
+            width: 100% !important;
+            margin-bottom: 0.5rem !important;
+        }
+    }
+    
+    /* Tablet devices - between 768px and 1024px */
+    @media only screen and (min-width: 769px) and (max-width: 1024px) {
+        .main .block-container {
+            padding: 1rem 1.5rem !important;
+        }
+        
+        .sidebar-logo {
+            width: 100px !important;
+            height: 100px !important;
+        }
+    }
+    
+    /* Landscape orientation optimizations */
+    @media only screen and (max-height: 600px) and (orientation: landscape) {
+        .sidebar-header {
+            padding: 0.75rem !important;
+        }
+        
+        .sidebar-logo {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        
+        .status-card {
+            margin: 0.5rem 0 !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
