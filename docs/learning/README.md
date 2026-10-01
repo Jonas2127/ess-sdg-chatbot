@@ -45,32 +45,33 @@ This folder contains **professional, detailed, line-by-line explanations** of ev
 
 ### **Phase 2: Complete Router & Engines (IN PROGRESS)**
 
-4. **02_DUAL_ENGINE_ROUTER_EXPLAINED.md** (Parts 2-5) 🔄
-   - Part 2: Engine A (PDF RAG) query implementation
-   - Part 3: Engine B (SQL Database) query implementation
-   - Part 4: Main query interface
-   - Part 5: Response assembly and source filtering
-
-5. **03_PDF_PROCESSING_EXPLAINED.md** 📝
-   - PDF text extraction
-   - Document chunking
+4. **03_PDF_PROCESSING_EXPLAINED.md** ✅
+   - PDF text extraction with pdfplumber
+   - Document chunking (700 words, 100 overlap)
    - Why chunk sizes matter
-   - Handling different PDF formats
+   - Table handling
+   - Metadata extraction from filenames
 
-6. **04_VECTOR_DATABASE_EXPLAINED.md** 📝
+5. **04_VECTOR_DATABASE_EXPLAINED.md** ✅
+   - What are embeddings and why they matter
    - ChromaDB operations
    - Creating collections
-   - Adding documents
-   - Search and retrieval
+   - Adding documents with batching
+   - Semantic search vs keyword search
+   - Metadata filtering
 
-### **Phase 3: Additional Components**
+### **Phase 3: Additional Components (NEXT)**
 
-7. **05_EXCEL_SQL_EXPLAINED.md** 📝
-8. **06_STREAMLIT_APP_EXPLAINED.md** 📝
-9. **07_TELEGRAM_BOT_EXPLAINED.md** 📝
-10. **08_DATABASE_BUILDER_EXPLAINED.md** 📝
-11. **09_DATABASE_DOWNLOADER_EXPLAINED.md** 📝
-12. **10_EXPORT_EXPLAINED.md** 📝
+6. **05_EXCEL_SQL_EXPLAINED.md** 🔄
+   - Excel to SQL database conversion
+   - Natural language to SQL translation
+   - Query validation and safety
+
+7. **06_STREAMLIT_APP_EXPLAINED.md** 📝
+8. **07_TELEGRAM_BOT_EXPLAINED.md** 📝
+9. **08_DATABASE_BUILDER_EXPLAINED.md** 📝
+10. **09_DATABASE_DOWNLOADER_EXPLAINED.md** 📝
+11. **10_EXPORT_EXPLAINED.md** 📝
 
 ---
 
@@ -189,13 +190,13 @@ After each section, try building a mini version:
 
 ```
 Phase 1: Foundation          [████████████] 100%
-Phase 2: Core Implementation [████████████]  90% (Parts 4-5 remaining)
+Phase 2: Core Implementation [████████████] 100% ✅
 Phase 3: Additional Files    [░░░░░░░░░░░░]   0%
 
-Overall Progress             [████████░░░░]  65%
+Overall Progress             [████████████]  75%
 ```
 
-**Latest Achievement:** ✅ Engine A & B fully explained!
+**Latest Achievement:** ✅ Vector Database & PDF Processing fully explained!
 
 ---
 
