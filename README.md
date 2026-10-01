@@ -333,15 +333,65 @@ Export conversations to:
 
 ## 🌐 Deployment
 
-### Streamlit Cloud
-Deployed at: `https://ess-rag-chatbot.streamlit.app`
+### ⚠️ Local Deployment Only
 
-See `docs/DEPLOYMENT.md` for deployment instructions.
+**This application is designed for LOCAL use only.**
+
+**Why Local-Only?**
+- Uses Ollama (requires local installation, not available on cloud platforms)
+- Large database files (~800MB ChromaDB + 10MB SQLite)
+- Best performance on local machines
+
+**To Run Locally:**
+```bash
+# 1. Install Ollama from https://ollama.com/download
+ollama pull llama3.2:1b
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Download databases (first time only)
+python download_chromadb.py
+
+# 4. Run the app
+streamlit run streamlit_app.py
+```
+
+**Access:** Open `http://localhost:8501` in your browser
+
+---
+
+### 🌍 For 24/7 Cloud Deployment
+
+If you need 24/7 online access, you'll need to:
+
+1. **Use a Cloud LLM API** (Ollama doesn't work on Streamlit Cloud)
+   - **Option A**: Together AI (FREE $25 credit) - https://api.together.xyz
+   - **Option B**: OpenRouter (pay-as-you-go, ~$0.001/query) - https://openrouter.ai
+   - **Option C**: Replicate (reliable, pay-per-use) - https://replicate.com
+
+2. **Update `.env` file** with cloud provider:
+```env
+LLM_PROVIDER=together  # or openrouter, replicate
+TOGETHER_API_KEY=your_api_key_here
+```
+
+3. **Deploy to Streamlit Cloud** with proper secrets configured
+
+**Note:** Cloud deployment requires cloud-based LLM API (free tier APIs like Groq/Gemini may have access limitations).
+
+---
 
 ### Telegram Bot
-24/7 access via Telegram interface.
+For mobile access, you can run the Telegram bot locally:
+
+```bash
+python telegram_bot.py
+```
 
 See `TELEGRAM_QUICK_START.md` for setup instructions.
+
+**Note:** Telegram bot also runs locally and requires your computer to be on.
 
 ---
 
