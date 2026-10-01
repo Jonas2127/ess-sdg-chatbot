@@ -441,7 +441,12 @@ Answer:""",
         query_lower = query.strip().lower()
         
         # Handle greetings
-        greetings = ['hi', 'hello', 'hey', 'greetings', 'good morning', 'good afternoon', 'howdy']
+        greetings = [
+            'hi', 'hello', 'hey', 'greetings', 'good morning', 
+            'good afternoon', 'good evening', 'howdy',
+            'how are you', 'how r u', 'how are u',
+            'how do you do', 'whats up', "what's up"
+        ]
         if any(greet == query_lower or query_lower.startswith(greet + ' ') for greet in greetings):
             return False, "greeting"
         
@@ -653,7 +658,7 @@ SQL Query:"""
         if not is_valid:
             if validation_type == "greeting":
                 return {
-                    'answer': "Hello! I can help you find information about Ethiopian statistics and SDG indicators. What would you like to know?",
+                    'answer': "Hello! 👋 I'm doing great, thank you for asking! I'm here to help you find information about Ethiopian statistics and SDG indicators.\n\nI can assist with:\n• Consumer Price Index and inflation data\n• Agricultural surveys and livestock statistics\n• Population and demographic information\n• Business and economic indicators\n• UN SDG progress for Ethiopia\n\nWhat would you like to know?",
                     'sources': [],
                     'source_count': 0,
                     'response_time': 0
