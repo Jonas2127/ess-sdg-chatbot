@@ -440,14 +440,20 @@ Answer:""",
         """
         query_lower = query.strip().lower()
         
+        # Remove punctuation for greeting detection
+        import string
+        query_clean = query_lower.translate(str.maketrans('', '', string.punctuation))
+        
         # Handle greetings
         greetings = [
             'hi', 'hello', 'hey', 'greetings', 'good morning', 
             'good afternoon', 'good evening', 'howdy',
             'how are you', 'how r u', 'how are u',
-            'how do you do', 'whats up', "what's up"
+            'how do you do', 'whats up', 'what\'s up', 'whatsup'
         ]
-        if any(greet == query_lower or query_lower.startswith(greet + ' ') for greet in greetings):
+        # Check both with and without punctuation
+        if any(greet == query_clean or query_clean.startswith(greet + ' ') or 
+               greet == query_lower or query_lower.startswith(greet + ' ') for greet in greetings):
             return False, "greeting"
         
         # Handle meta questions about the chatbot itself
@@ -458,7 +464,8 @@ Answer:""",
             'who made you', 'who created you', 'who built you',
             'what is this', 'what is this chatbot', 'explain yourself'
         ]
-        if any(meta in query_lower for meta in meta_questions):
+        # Check both cleaned and original versions
+        if any(meta in query_clean or meta in query_lower for meta in meta_questions):
             return False, "meta_question"
         
         # Improved gibberish detection - LESS STRICT
