@@ -24,12 +24,20 @@ This folder contains **professional, detailed, line-by-line explanations** of ev
    - Real-world applications
    - **READ THIS SECOND**
 
-3. **[02_DUAL_ENGINE_ROUTER_EXPLAINED.md](02_DUAL_ENGINE_ROUTER_EXPLAINED.md)** ✅ (Part 1)
-   - Query validation (detecting greetings, gibberish)
-   - Semantic similarity calculation
-   - Keyword matching
-   - Routing logic (PDF vs SQL vs Both)
-   - **MOST IMPORTANT FILE - Currently covers validation & routing**
+3. **[02_DUAL_ENGINE_ROUTER_EXPLAINED.md](02_DUAL_ENGINE_ROUTER_EXPLAINED.md)** ✅
+   - Part 1: Query validation & routing logic
+
+4. **[02_PART2_ENGINE_A_PDF_RAG.md](02_PART2_ENGINE_A_PDF_RAG.md)** ✅
+   - Part 2: Complete PDF RAG engine explanation
+   - MMR retrieval strategy
+   - Cross-encoder re-ranking
+   - Source filtering algorithms
+
+5. **[02_PART3_ENGINE_B_SQL.md](02_PART3_ENGINE_B_SQL.md)** ✅
+   - Part 3: Complete SQL engine explanation
+   - Natural language to SQL
+   - Query safety and validation
+   - Result formatting
 
 ---
 
@@ -181,11 +189,13 @@ After each section, try building a mini version:
 
 ```
 Phase 1: Foundation          [████████████] 100%
-Phase 2: Core Implementation [████░░░░░░░░]  30%
+Phase 2: Core Implementation [████████████]  90% (Parts 4-5 remaining)
 Phase 3: Additional Files    [░░░░░░░░░░░░]   0%
 
-Overall Progress             [███░░░░░░░░░]  25%
+Overall Progress             [████████░░░░]  65%
 ```
+
+**Latest Achievement:** ✅ Engine A & B fully explained!
 
 ---
 
